@@ -99,10 +99,6 @@ def delete_player(name):
     # Committing the transaction to apply changes to the database
     mydb.commit()
 
-
-cursor.close()
-mydb.close()
-
 # The following code shows how to use the above functions to interact with the database:
 # - insert_playerinfo()
 # - read_playerinfo()
