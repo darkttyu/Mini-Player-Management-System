@@ -1,6 +1,9 @@
 import mysql.connector
 
 # Establishing a connection to MySQL database
+# If want nyo marun yung buong program, make sure na
+# adjust yung details sa pagconnect sa database and dapat may players and teams
+# tables kayo
 mydb = mysql.connector.connect(
     host='localhost',
     user='root',
