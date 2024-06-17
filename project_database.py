@@ -18,16 +18,23 @@ cursor = mydb.cursor()
 
 # Function to insert a new player into the database
 def insert_player(playername, age, role, winrate, recentlyused, mostused, teamparticipation, teamid):
-    insert_formula = ("INSERT INTO players (playername, age, role, win_rate, recently_used, most_used, "
-                      "team_participation, teamID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
-    player = (playername, age, role, winrate, recentlyused, mostused, teamparticipation, teamid)
+    # Checks if a player already exists in the database
+    check_formula = ("SELECT playerName FROM players WHERE playerName = %s")
+    cursor.execute(check_formula, (playername,))
+    result = cursor.fetchone()
 
-    # Executing the SQL INSERT statement
-    cursor.execute(insert_formula, player)
+    if result is None:
+        insert_formula = ("INSERT INTO players (playerName, age, role, win_rate, recently_used, most_used, "
+                          "team_participation, teamID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+        player = (playername, age, role, winrate, recentlyused, mostused, teamparticipation, teamid)
 
-    # Committing the transaction to apply changes to the database
-    mydb.commit()
+        # Executing the SQL INSERT statement
+        cursor.execute(insert_formula, player)
 
+        # Committing the transaction to apply changes to the database
+        mydb.commit()
+    else:
+        print("Cannot Insert Player. Player already exists.")
 
 # Function to retrieve player information from the database
 def retrieve_player(name):
@@ -49,13 +56,13 @@ def retrieve_player(name):
     print("\nRetrieved Data from Database")
     player_info = f"""
     Player Name: {pdata_list[0]}
+    Team Name: {pdata_list[7]}
     Age: {pdata_list[1]}
     Role: {pdata_list[2]}
     Win Rate: {pdata_list[3]}%
     Recently Used: {pdata_list[4]}
     Most Used: {pdata_list[5]}
     Team Participation: {pdata_list[6]}
-    Team Name: {pdata_list[7]}
     Recent Match: {pdata_list[8]}
     """
     print(player_info)
@@ -103,7 +110,8 @@ def delete_player(name):
     mydb.commit()
 
 # The following code shows how to use the above functions to interact with the database:
-# - insert_playerinfo()
-# - read_playerinfo()
-# - update_playerinfo()
-# - delete_playerinfo()
+# - insert_player()
+# - retrieve_player()
+# - update_player()
+# - delete_player()
+
