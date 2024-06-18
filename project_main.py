@@ -59,7 +59,7 @@ def insert_playerinfo():
 
 def read_playerinfo():
     # Function to interactively read player data from the database
-    print("Reading Data From Database")
+    print("Reading Player Information From Database")
     read_playername = input("Enter Name to be Read: ")
 
     # Read player information from the database
