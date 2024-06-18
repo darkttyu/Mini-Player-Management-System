@@ -1,6 +1,5 @@
 import project_database as pdb  # Importing the database functions from project_database module
 
-
 class Player:
     def __init__(self, playername=None, age=None, role=None, games_played=None, winrate=None,
                  recentlyused=None, mostused=None, teamparticipation=None, teamid=None):
@@ -40,6 +39,7 @@ def insert_playerinfo():
     # Function to interactively insert player data into the database
     print("Inserting Data to Database")
 
+    # Collect player information from user input
     player_name = input("Player Name: ")
     player_age = int(input("Age: "))
     player_role = input("Role: ")
@@ -62,8 +62,7 @@ def read_playerinfo():
     read_playername = input("Enter Name to be Read: ")
 
     # Read player information from the database
-    player = Player()
-    player.read_player(read_playername)
+    Player.read_player(read_playername)
 
 
 def update_playerinfo():
@@ -74,8 +73,7 @@ def update_playerinfo():
     column = input("Enter Column to be Updated in Players Table: ")
 
     # Update player information in the database
-    player = Player()
-    player.update_player(name, column)
+    Player.update_player(name, column)
 
 
 def delete_playerinfo():
@@ -85,8 +83,7 @@ def delete_playerinfo():
     name = input("Enter Player Name to be Deleted: ")
 
     # Delete player from the database
-    player = Player()
-    player.delete_player(name)
+    Player.delete_player(name)
 
 
 class Team:
@@ -97,44 +94,53 @@ class Team:
         self.recent_match = recent_match
 
     def new_team(self):
-        # Method to handle creating a new team (currently not implemented)
+        # Method to insert a new team into the database
         pdb.insert_team(self.team_id, self.teamname, self.recent_match)
 
     @staticmethod
     def retrieve_team(teamID):
+        # Static method to retrieve team roster from the database
         pdb.retrieve_roster(teamID)
 
-    def update_team(self):
+    @staticmethod
+    def update_team():
+        # Method placeholder for updating a team (currently not implemented)
         pass
 
-    def delete_team(self):
+    @staticmethod
+    def delete_team():
+        # Method placeholder for deleting a team (currently not implemented)
         pass
 
 
 def insert_teaminfo():
+    # Function to interactively insert team data into the database
     print("Inserting Team to Database")
 
     new_teamID = int(input("Team ID: "))
     new_teamname = input("Team Name: ")
     team_recentmatch = input("Recent Match: ")
 
+    # Create Team object and insert data into the database
     team = Team(new_teamID, new_teamname, team_recentmatch)
     team.new_team()
 
 
 def read_teaminfo():
+    # Function to interactively read team data from the database
     print("Retrieving Team Information")
 
     teamID = int(input("Enter Team ID: "))
-    team = Team(teamID)
-    team.retrieve_team(teamID)
+    Team.retrieve_team(teamID)
 
 
 def update_teaminfo():
+    # Method placeholder for updating team information (currently not implemented)
     pass
 
 
 def delete_teaminfo():
+    # Method placeholder for deleting team information (currently not implemented)
     pass
 
 # The following code shows how to use the above functions to interact with the database:
@@ -142,5 +148,7 @@ def delete_teaminfo():
 # - read_playerinfo()
 # - update_playerinfo()
 # - delete_playerinfo()
+# - insert_teaminfo()
+# - read_teaminfo()
 
-read_teaminfo()
+read_playerinfo()

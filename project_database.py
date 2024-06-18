@@ -1,15 +1,13 @@
 import mysql.connector
 
 # Establishing a connection to MySQL database
-# If want nyo marun yung buong program, make sure na
-# adjust yung details sa pagconnect sa database and dapat may players and teams
-# tables kayo
+# Make sure to adjust these details to match your MySQL server configuration
 mydb = mysql.connector.connect(
     host='localhost',
     user='root',
     password='DroU9HPwqRHnzOC',
-    port='3307',
-    database='player_management'
+    port='3307',  # Adjust the port number as per your MySQL server configuration
+    database='player_management'  # Ensure this database exists in your MySQL server
 )
 
 # Creating a cursor object to execute SQL queries
@@ -36,8 +34,8 @@ def insert_player(playername, age, role, winrate, games_played, recentlyused, mo
     else:
         print("Cannot Insert Player. Player already exists.")
 
+# Function to insert a new team into the database
 def insert_team(team_id, team_name, recent_match):
-
     check_team = ("SELECT teamName FROM teams WHERE teamName = %s")
     cursor.execute(check_team, (team_name,))
     result = cursor.fetchone()
@@ -50,6 +48,7 @@ def insert_team(team_id, team_name, recent_match):
         mydb.commit()
     else:
         print("Cannot Insert Team. Team already exists.")
+
 # Function to retrieve player information from the database
 def retrieve_player(name):
     read_formula = ("SELECT playerName, age, role, games_played, "
@@ -65,7 +64,6 @@ def retrieve_player(name):
     # Fetching the first row of the result
     player_data = cursor.fetchone()
     pdata_list = list(player_data)
-    print(pdata_list)
 
     # Printing retrieved player information
     print("\nRetrieved Data from Database")
@@ -83,6 +81,7 @@ def retrieve_player(name):
     """
     print(player_info)
 
+# Function to retrieve roster of players in a team from the database
 def retrieve_roster(teamID):
     retrieve_formula = ("SELECT playerName, age, role, games_played, win_rate, " 
                         "recently_used, most_used, team_participation FROM PLAYERS "
@@ -143,7 +142,6 @@ def update_player(name, column):
     # Committing the transaction to apply changes to the database
     mydb.commit()
 
-
 # Function to delete a player from the database
 def delete_player(name):
     delete_formula = ("DELETE FROM PLAYERS WHERE playerName = %s")
@@ -160,4 +158,3 @@ def delete_player(name):
 # - retrieve_player()
 # - update_player()
 # - delete_player()
-
