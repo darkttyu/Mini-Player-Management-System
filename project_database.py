@@ -36,6 +36,7 @@ def insert_player(playername, age, role, winrate, games_played, recentlyused, mo
 
 # Function to insert a new team into the database
 def insert_team(team_id, team_name, recent_match):
+    # Checks if a team already exists in the database
     check_team = ("SELECT teamName FROM teams WHERE teamName = %s")
     cursor.execute(check_team, (team_name,))
     result = cursor.fetchone()
@@ -44,13 +45,17 @@ def insert_team(team_id, team_name, recent_match):
         insert_formula = ("INSERT INTO teams (teamID, teamName, recent_match) VALUES (%s, %s, %s)")
         team = (team_id, team_name, recent_match)
 
+        # Executing the SQL INSERT statement
         cursor.execute(insert_formula, team)
+
+        # Committing the transaction to apply changes to the database
         mydb.commit()
     else:
         print("Cannot Insert Team. Team already exists.")
 
 # Function to retrieve player information from the database
 def retrieve_player(name):
+    # SQL query to retrieve player information by joining players and teams tables
     read_formula = ("SELECT playerName, age, role, games_played, "
                     "win_rate, recently_used, most_used, "
                     "team_participation, teamName, recent_match "
@@ -81,8 +86,9 @@ def retrieve_player(name):
     """
     print(player_info)
 
-# Function to retrieve roster of players in a team from the database
+# Function to retrieve the roster of players in a team from the database
 def retrieve_roster(teamID):
+    # SQL query to retrieve players in a team
     retrieve_formula = ("SELECT playerName, age, role, games_played, win_rate, " 
                         "recently_used, most_used, team_participation FROM PLAYERS "
                         "WHERE teamID = %s")
@@ -90,16 +96,19 @@ def retrieve_roster(teamID):
     roster_data = cursor.fetchall()
     roster_list = [list(player) for player in roster_data]
 
+    # SQL query to retrieve team information
     retrieve_team_formula = ("SELECT teamName, recent_match FROM teams WHERE teamID = %s")
     cursor.execute(retrieve_team_formula, (teamID,))
     singleteam_info = cursor.fetchall()
     convertedteam_info = [list(team) for team in singleteam_info]
 
+    # Printing team information
     team_info = f"""Team Name: {convertedteam_info[0][0]}
 Recent Match: {convertedteam_info[0][1]}"""
     print(team_info)
 
-    for x in range(5):
+    # Printing player information for the team
+    for x in range(len(roster_list)):
         roster_info = f"""
     [{x+1}] Player Name: {roster_list[x][0]}
     Age: {roster_list[x][1]}
@@ -115,7 +124,7 @@ Recent Match: {convertedteam_info[0][1]}"""
 
 # Function to update player information in the database
 def update_player(name, column):
-    column_list = ['playerName', 'age', 'role', 'win_rate', 'recent_used', 'most_used', 'team_participation']
+    column_list = ['playerName', 'age', 'role', 'win_rate', 'recently_used', 'most_used', 'team_participation', 'teamID']
 
     # Checking if the specified column is valid
     if column not in column_list:
@@ -123,17 +132,27 @@ def update_player(name, column):
         return
 
     # Handling different data types for update
-    elif column == 'win_rate' or column == 'team_participation':
+    if column == 'win_rate' or column == 'team_participation':
         new_value = float(input("Enter New Value: "))
-    elif column == 'age':
-        new_value = int(input("Enter new Value: "))
+    elif column == 'age' or column == 'teamID':
+        new_value = int(input("Enter New Value: "))
     else:
         new_value = input("Enter New Value: ")
+
+    # If updating teamID, check if the new teamID exists in the teams table
+    if column == 'teamID':
+        check_team_formula = "SELECT teamID FROM TEAMS WHERE teamID = %s"
+        cursor.execute(check_team_formula, (new_value,))
+        result = cursor.fetchone()
+
+        if result is None:
+            print("Invalid teamID. The teamID does not exist in the teams table.")
+            return
 
     # Constructing the SQL UPDATE statement
     update_formula = ("UPDATE PLAYERS "
                       "SET " + column + " = %s "
-                                        "WHERE playerName = %s")
+                      "WHERE playerName = %s")
 
     # Executing the SQL UPDATE statement
     cursor.execute(update_formula, (new_value, name))
@@ -142,8 +161,36 @@ def update_player(name, column):
     # Committing the transaction to apply changes to the database
     mydb.commit()
 
+# Function to update team information in the database
+def update_team(id, column):
+    column_list = ['teamID', 'teamName', 'recent_match']
+
+    # Checking if the specified column is valid
+    if column not in column_list:
+        print("Invalid Column. Try again.")
+        return
+
+    # Handling different data types for update
+    if column == 'teamID':
+        new_value = int(input("Enter New Value: "))
+    else:
+        new_value = input("Enter New Value: ")
+
+    # Constructing the SQL UPDATE statement
+    update_formula = ("UPDATE TEAMS "
+                      "SET " + column + " = %s "
+                      "WHERE teamID = %s")
+
+    # Executing the SQL UPDATE statement
+    cursor.execute(update_formula, (new_value, id))
+    print("Team Updated Successfully!")
+
+    # Committing the transaction to apply changes to the database
+    mydb.commit()
+
 # Function to delete a player from the database
 def delete_player(name):
+    # Constructing the SQL DELETE statement
     delete_formula = ("DELETE FROM PLAYERS WHERE playerName = %s")
 
     # Executing the SQL DELETE statement
@@ -153,8 +200,27 @@ def delete_player(name):
     # Committing the transaction to apply changes to the database
     mydb.commit()
 
+# Function to delete a team from the database
+def team_deletion(teamID):
+    # Update the players to set teamID to NULL
+    update_players_formula = ("UPDATE PLAYERS SET teamID = NULL WHERE teamID = %s")
+    cursor.execute(update_players_formula, (teamID,))
+
+    # Delete the team
+    delete_team_formula = ("DELETE FROM TEAMS WHERE teamID = %s")
+    cursor.execute(delete_team_formula, (teamID,))
+
+    # Commit the transaction to apply changes to the database
+    mydb.commit()
+
+    print("Team Deleted Successfully!")
+
 # The following code shows how to use the above functions to interact with the database:
 # - insert_player()
+# - insert_team()
 # - retrieve_player()
+# - retrieve_roster()
 # - update_player()
+# - update_team()
 # - delete_player()
+# - team_deletion()
