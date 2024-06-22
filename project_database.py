@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector import errorcode
 
 # Establishing a connection to MySQL database
 # Make sure to adjust these details to match your MySQL server configuration
@@ -13,47 +14,46 @@ mydb = mysql.connector.connect(
 # Creating a cursor object to execute SQL queries
 cursor = mydb.cursor()
 
-
 # Function to insert a new player into the database
-def insert_player(playername, age, role, winrate, games_played, recentlyused, mostused, teamparticipation, teamid):
+def insert_player(playername, age, role):
     # Checks if a player already exists in the database
-    check_formula = ("SELECT playerName FROM players WHERE playerName = %s")
+    check_formula = ("SELECT playerName FROM PLAYER WHERE playerName = %s")
     cursor.execute(check_formula, (playername,))
     result = cursor.fetchone()
 
     if result is None:
-        insert_formula = ("INSERT INTO players (playerName, age, role, games_played, win_rate, recently_used, most_used, "
-                          "team_participation, teamID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
-        player = (playername, age, role, winrate, games_played, recentlyused, mostused, teamparticipation, teamid)
+        insert_formula = ("INSERT INTO PLAYER (playerName, age, role) VALUES (%s, %s, %s)")
+        player = (playername, age, role)
 
         # Executing the SQL INSERT statement
         cursor.execute(insert_formula, player)
 
         # Committing the transaction to apply changes to the database
         mydb.commit()
+        print("Player Inserted Successfully!")
     else:
         print("Cannot Insert Player. Player already exists.")
 
-# Function to insert a new team into the database
-def insert_team(team_id, team_name, recent_match):
-    # Checks if a team already exists in the database
-    check_team = ("SELECT teamName FROM teams WHERE teamName = %s")
-    cursor.execute(check_team, (team_name,))
+def insert_playerstat(playerName, teamID, year, games_played, most_used, win_rate, team_participation):
+    check_formula = ("SELECT playerName, teamID, year FROM PLAYER_PERFORMANCE WHERE playerName = %s AND teamID = %s AND year = %s")
+    cursor.execute(check_formula, (playerName, teamID, year))
     result = cursor.fetchone()
 
     if result is None:
-        insert_formula = ("INSERT INTO teams (teamID, teamName, recent_match) VALUES (%s, %s, %s)")
-        team = (team_id, team_name, recent_match)
+        insert_formula = ("INSERT INTO PLAYER_PERFORMANCE (playerName, teamID, year, "
+                          "games_played, most_used, win_rate, team_participation) "
+                          "VALUES (%s, %s, %s, %s, %s, %s, %s)")
+        player_statistics = (playerName, teamID, year, games_played, most_used, win_rate, team_participation)
+        cursor.execute(insert_formula, player_statistics)
 
-        # Executing the SQL INSERT statement
-        cursor.execute(insert_formula, team)
-
-        # Committing the transaction to apply changes to the database
         mydb.commit()
+        print("Player Statistics Inserted Successfully!")
     else:
-        print("Cannot Insert Team. Team already exists.")
+        print("Cannot Insert Data. Player Statistics already exists!")
+
 
 # Function to retrieve player information from the database
+
 def retrieve_player(name):
     # SQL query to retrieve player information by joining players and teams tables
     read_formula = ("SELECT playerName, age, role, games_played, "
@@ -87,7 +87,7 @@ def retrieve_player(name):
     print(player_info)
 
 # Function to retrieve the roster of players in a team from the database
-def retrieve_roster(teamID):
+
     # SQL query to retrieve players in a team
     retrieve_formula = ("SELECT playerName, age, role, games_played, win_rate, " 
                         "recently_used, most_used, team_participation FROM PLAYERS "
@@ -215,12 +215,136 @@ def team_deletion(teamID):
 
     print("Team Deleted Successfully!")
 
-# The following code shows how to use the above functions to interact with the database:
-# - insert_player()
-# - insert_team()
-# - retrieve_player()
-# - retrieve_roster()
-# - update_player()
-# - update_team()
-# - delete_player()
-# - team_deletion()
+# Database Team Table
+def insert_team(team_id, team_name, recent_match, coach_ID):
+
+    try:
+        # Checks if a team already exists in the database
+        check_team = ("SELECT teamName FROM TEAM WHERE teamName = %s OR coach_ID = %s")
+        cursor.execute(check_team, (team_name, coach_ID))
+        result = cursor.fetchone()
+
+        if result is None:
+            insert_formula = ("INSERT INTO TEAM (team_ID, teamName, recent_match, coach_ID) VALUES (%s, %s, %s, %s)")
+            team = (team_id, team_name, recent_match, coach_ID)
+
+            # Executing the SQL INSERT statement
+            cursor.execute(insert_formula, team)
+
+            # Committing the transaction to apply changes to the database
+            mydb.commit()
+            print("Team Successfully Inserted")
+        else:
+            print("Cannot Insert Team. Coach already taken.")
+    except mysql.connector.IntegrityError as e:
+        if e.errno == errorcode.ER_DUP_ENTRY:
+            print("Cannot Insert Team. Team ID already taken.")
+        else:
+            print("An unknown error occured.")
+
+def retrieve_roster(teamID):
+    pass
+
+def update_team_info(teamID, column, new_value):
+    team_info = ['team_ID', 'teamName', 'recent_match', 'coach_ID']
+
+    if column not in team_info:
+        print("Team Column not Found. Try again.")
+
+    if column == 'team_ID':
+        check_ID_formula = ("SELECT team_ID FROM TEAM WHERE team_ID = %s")
+        cursor.execute(check_ID_formula, (new_value, ))
+        result = cursor.fetchone()
+
+        if result is None:
+            team_update_formula = ("UPDATE TEAM SET team_ID = %s WHERE team_ID = %s")
+            cursor.execute(team_update_formula, (new_value, teamID, ))
+
+            player_update_formula = ("UPDATE PLAYER SET team_ID = %s WHERE team_ID IS NULL")
+            cursor.execute(player_update_formula, (new_value, ))
+
+            mydb.commit()
+        else:
+            print("Team ID already taken. Try again.")
+
+
+    elif column == 'coach_ID':
+        check_ID_formula = ("SELECT coach_ID FROM TEAM WHERE coach_ID = %s")
+        cursor.execute(check_ID_formula, (new_value, ))
+        result = cursor.fetchone()
+
+        if result is None:
+            team_update_formula = ("UPDATE TEAM SET " + column + " = %s WHERE team_ID = %s")
+            cursor.execute(team_update_formula, (new_value, teamID))
+            mydb.commit()
+            print("Coach ID of Team Successfully Updated!")
+        else:
+            print("2 or more teams cannot have the same Coach.")
+    else:
+        team_update_formula = ("UPDATE TEAM SET " + column + " = %s WHERE team_ID = %s")
+        cursor.execute(team_update_formula, (new_value, teamID))
+        mydb.commit()
+
+
+
+def delete_team_info(teamID):
+    delete_formula = ("DELETE FROM TEAM WHERE team_ID = %s")
+    cursor.execute(delete_formula, (teamID, ))
+    mydb.commit()
+
+# Database Coach Table
+def insert_coach(coachID, coachName, firstname, lastname):
+    check_formula = ("SELECT coachName from COACH WHERE coachName = %s")
+    cursor.execute(check_formula, (coachName, ))
+    result = cursor.fetchone()
+
+    if result is None:
+        insert_formula = ("INSERT INTO COACH(coach_ID, coachName, cFName, cLName) VALUES (%s, %s, %s, %s)")
+        coach = (coachID, coachName, firstname, lastname)
+        cursor.execute(insert_formula, coach)
+        mydb.commit()
+        print("Coach Succesfully Inserted!")
+    else:
+        print("Cannot Insert Coach. Coach already exists!")
+
+def retrieve_coach_info(coach_ID):
+    read_formula = ("SELECT * FROM COACH WHERE coach_ID = %s")
+    cursor.execute(read_formula, (coach_ID,))
+
+    coach_data = cursor.fetchone()
+    coach_data = list(coach_data)
+
+    print("Coach ID:", coach_data[0])
+    print("Coach IGN:", coach_data[1])
+    print("Coach First Name:", coach_data[2])
+    print("Coach Last Name:", coach_data[3])
+
+def update_coach_info(coach_ID, column, new_value):
+    coach_info = ['coach_ID', 'coachName', 'cFName', 'cLName']
+
+    if column not in coach_info:
+        print("Column not in Coach Table. Try again")
+        return
+
+    if column == 'coach_ID':
+        new_value = int(new_value)
+
+    coach_update_formula = ("UPDATE COACH SET " + column + " = %s WHERE coach_ID = %s")
+    team_update_formula = ("UPDATE TEAM SET coach_ID = %s WHERE coach_ID IS NULL")
+    # Executing the SQL UPDATE statement
+    cursor.execute(coach_update_formula, (new_value, coach_ID))
+    cursor.execute(team_update_formula, (new_value,))
+
+
+    # Committing the transaction to apply changes to the database
+    mydb.commit()
+    print("Coach Updated Successfully!")
+
+def delete_coach_info(coach_ID):
+    delete_coach_formula = ("DELETE FROM COACH WHERE coach_ID = %s")
+    update_team_formula = ("UPDATE TEAM SET coach_ID = NULL WHERE coach_ID = %s")
+    cursor.execute(delete_coach_formula, (coach_ID,))
+    cursor.execute(update_team_formula, (coach_ID,))
+
+    mydb.commit()
+    print("Coach Information Deleted Successfully!")
