@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 
+# Minor adjustments to be completed
 # Establishing a connection to MySQL database
 # Make sure to adjust these details to match your MySQL server configuration
 mydb = mysql.connector.connect(

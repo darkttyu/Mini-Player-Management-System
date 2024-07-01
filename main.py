@@ -177,5 +177,5 @@ class Coach:
         coach_ID = int(input("Enter Coach ID to be Deleted: "))
         pdb.delete_coach_info(coach_ID)
 
-playerstat = Statistic()
-playerstat.insert_playerstat()
+# playerstat = Statistic()
+# playerstat.insert_playerstat()
