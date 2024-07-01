@@ -88,6 +88,7 @@ def delete_player_statinfo(name, year):
     mydb.commit()
 
     print("Player Statistics Successfully Deleted.")
+
 # Database Player Table
 
 def insert_player(IGN, FName, LName, age, role_ID, team_ID):
