@@ -15,6 +15,10 @@ def coach():
     def DisplayWindow():
         coach_information = pdb.retrieve_coach_info(E10.get())
 
+        if coach_information == 'DNE':
+            messagebox.showerror('Error!', 'Cannot Retrieve Data. Coach ID does not exist!')
+            return
+
         RetrieveWindow = Toplevel()
         RetrieveWindow.title("Display Coach Information")
         RetrieveWindow.geometry("")
@@ -72,11 +76,13 @@ def coach():
         answer = askyesno("Delete Coach Information", "Are you sure you want to delete the "
                                                              "Coach Information")
         if answer:
-            delete_team = pdb.delete_coach_info(E9.get())
+            delete_coach = pdb.delete_coach_info(E9.get())
 
-            if delete_team:
+            if delete_coach == 'True':
                 messagebox.showinfo("Deletion Done!", 'Coach Information Deleted '
                                                       'Successfully!')
+            elif delete_coach == 'DNE':
+                messagebox.showerror('Deletion Error!', 'Cannot delete coach. Coach does not exist!')
         else:
             return
 
@@ -91,15 +97,19 @@ def coach():
             column = 'coachFName'
         elif CCB1.get() == 'Coach Last Name':
             column = 'coachLName'
-        else:
-            pass
 
         update_coach = pdb.update_coach_info(E7.get(), column, E8.get())
 
-        if update_coach:
-            messagebox.showinfo('Congratulations!', 'Team Information Successfully Updated!')
-        else:
-            messagebox.showerror('Warning!', 'Cannot Update Team Information!')
+        if update_coach == 'CIDUS':
+            messagebox.showinfo('Congratulations!', 'Coach ID Updated Successfully!')
+        elif update_coach == 'CIUS':
+            messagebox.showinfo('Congratulations!', 'Coach Information Updated Successfully!')
+        elif update_coach == 'CAT':
+            messagebox.showwarning('Warning!', 'Cannot Update Coach ID. ID already taken!')
+        elif update_coach == 'CDNE':
+            messagebox.showerror('Error!', 'Cannot Update Coach Information. Coach does not exist!')
+        elif update_coach == 'COLDNE':
+            messagebox.showerror('Error!', 'Choose a column')
 
     def upd_clear():
         ClearInsert = [E7, E8]
@@ -113,7 +123,9 @@ def coach():
 
         if insert_coach is True:
             messagebox.showinfo('Congratulations!', "Successfully Inserted Coach")
-        else:
+        elif insert_coach == 'CIDAE':
+            messagebox.showerror('Error!', 'Cannot Insert Coach. Coach ID already taken!')
+        elif insert_coach == 'CNAE':
             messagebox.showwarning('Warning!', "Cannot Insert Coach. Coach already exists.")
 
     def ins_clearP():
@@ -337,6 +349,10 @@ def player():
     def DisplayWindow():
         player_information = pdb.read_player_info(E10.get())
 
+        if player_information == 'PLDNE':
+            messagebox.showerror('Error!', 'Cannot retrieve Player Information. Player does not exist!')
+            return
+
         RetrieveWindow = Toplevel()
         RetrieveWindow.title("Display Player Information")
         RetrieveWindow.geometry("")
@@ -411,9 +427,11 @@ def player():
         if answer:
             delete_player = pdb.delete_player_info(E9.get())
 
-            if delete_player:
+            if delete_player is True:
                 messagebox.showinfo("Deletion Done!", 'Player Information Deleted '
                                                       'Successfully!')
+            elif delete_player == 'PDNE':
+                messagebox.showerror('Deletion Error!', 'Cannot Delete Player. Player does not exist!')
         else:
             return
 
@@ -432,15 +450,23 @@ def player():
             column = 'role_ID'
         elif CCB1.get() == 'Team ID':
             column = 'team_ID'
-        else:
-            pass
 
         update_player = pdb.update_player_info(E7.get(), column, E8.get())
 
-        if update_player:
+        if update_player == 'CDNE':
+            messagebox.showerror('Error!', 'Choose a column!')
+        elif update_player == 'PIUS':
             messagebox.showinfo('Congratulations!', 'Player Information Successfully Updated!')
-        else:
-            messagebox.showerror('Warning!', 'Cannot Update Player Information!')
+        elif update_player == 'MAX':
+            messagebox.showerror('Warning!', 'The Team has reached the Maximum Number of Players!')
+        elif update_player == 'PTIDUS':
+            messagebox.showinfo('Congratulations!', 'Player Team ID Successfully Updated!')
+        elif update_player == 'PDNE':
+            messagebox.showerror('Error!', 'Player does not exist!')
+        elif update_player == 'TDNE':
+            messagebox.showerror('Error!', 'Team does not exist. Player Insertion Error')
+        elif update_player == 'PNUS':
+            messagebox.showinfo('Congratulations!', 'Player Name Updated Successfully!')
 
     def upd_clear():
         ClearInsert = [E7, E8]
@@ -453,10 +479,11 @@ def player():
         insert_player = pdb.insert_player(E1.get(), E2.get(), E3.get(), E4.get(), E5.get(), E6.get())
 
         if insert_player is True:
-            messagebox.showinfo('Congratulations!', "Successfully Inserted Player")
-        else:
-            messagebox.showwarning('Warning!', "Cannot Insert Player. Player already exists / Team"
-                                               "has reached maximum number of Players.")
+            messagebox.showinfo('Congratulations!', 'Player Inserted Successfully!')
+        elif insert_player == 'MAX':
+            messagebox.showerror('Error!', 'Cannot Insert Player. Maximum Players for Team reached.')
+        elif insert_player == 'PLAE':
+            messagebox.showerror('Error!', 'Player already exists! Cannot insert player.')
 
     def ins_clearP():
         ClearInsert = [E1, E2, E3, E4, E5, E6]
@@ -763,9 +790,11 @@ def team():
         if answer:
             delete_team = pdb.delete_team_info(E9.get())
 
-            if delete_team:
+            if delete_team == 'True':
                 messagebox.showinfo("Deletion Done!", 'Player Information Deleted '
                                                       'Successfully!')
+            elif delete_team == 'DNE':
+                messagebox.showerror('Error!', 'Cannot Delete Team. Team does not exist.')
         else:
             return
 
@@ -785,10 +814,22 @@ def team():
 
         update_team = pdb.update_team_info(E7.get(), column, E8.get())
 
-        if update_team:
-            messagebox.showinfo('Congratulations!', 'Team Information Successfully Updated!')
-        else:
-            messagebox.showerror('Warning!', 'Cannot Update Team Information!')
+        if update_team == 'TISU':
+            messagebox.showinfo('Congratulations!', 'Team Information Updated Successfully!')
+        elif update_team == 'TIUS':
+            messagebox.showinfo('Congratulations!', 'Team ID Successfully Updated!')
+        elif update_team == 'CIDUS':
+            messagebox.showinfo('Congratulations!', 'Coach ID Successfully Updated!')
+        elif update_team == 'TIDAT':
+            messagebox.showerror('Error!', 'Team ID Already Taken!')
+        elif update_team == 'TDNE':
+            messagebox.showerror('Error!', 'Cannot Update Team ID. Team does not exist.')
+        elif update_team == 'CDNE':
+            messagebox.showerror('Error!', 'Cannot Update Coach ID. Coach does not exist.')
+        elif update_team == 'CAT':
+            messagebox.showwarning('Warning!', 'Only 1 coach allowed per Team!')
+        elif update_team is False:
+            messagebox.showerror('Error', 'Choose a column')
 
     def upd_clear():
         ClearInsert = [E7, E8]
@@ -800,11 +841,14 @@ def team():
     def ins_submitP():
         insert_team = pdb.insert_team(E1.get(), E2.get(), E3.get(), E4.get())
 
-        if insert_team is True:
-            messagebox.showinfo('Congratulations!', "Successfully Inserted Team")
-        else:
-            messagebox.showwarning('Warning!', "Cannot Insert Team. Team already exists / Coach"
-                                               " already Taken!")
+        if insert_team == 'TIDAE':
+            messagebox.showerror('Error!', 'Cannot Insert Team. Team ID already exists!')
+        elif insert_team == 'TNAE':
+            messagebox.showerror('Error!', 'Cannot Insert Team. Team Name already exists!')
+        elif insert_team == 'CAT':
+            messagebox.showerror('Error!', 'Cannot Insert Team. Coach already has a Team.')
+        elif insert_team == 'TIS':
+            messagebox.showinfo('Congratulations!', 'Team Inserted Succesfully!')
 
     def ins_clearP():
         ClearInsert = [E1, E2, E3, E4,]

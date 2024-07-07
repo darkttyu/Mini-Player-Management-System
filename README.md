@@ -3,7 +3,7 @@
 The Player Card Management System is designed to 
 simplify the management of player profiles across 
 e-sports teams. This platform allows e-sports 
-managersand team leads to create, update, and maintain player 
+managers and team leads to create, update, and maintain player 
 cards, facilitating efficient roster management and 
 performance evaluation.
 
@@ -15,3 +15,5 @@ This tool can be utilized in the professional e-sports
 industry to preview player performance on each team and 
 identify player cards that require further assessment.
 
+Read the **<em> User_Manual.md </em>** file to know the step-by-step 
+process on running this Mini System
