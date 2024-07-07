@@ -12,31 +12,31 @@ Download all the necessary files, including the `admin_information.sql` file.
 ## Step 2: Update Database Connection
 In the `database.py` file, connect it to your MySQL Workbench by updating the connection information as shown below:
 
-![Database Connection](img.png)
+![Database Connection](img/img.png)
 
 ## Step 3: Create Tables in MySQL Workbench
 Here are the table settings for your MySQL Workbench:
 
 ### Admin Table
-![Admin Table](img_1.png)
+![Admin Table](img/img_1.png)
 
 ### Player Table
-![Player Table](img_2.png)
-![Player Table](img_3.png)
+![Player Table](img/img_2.png)
+![Player Table](img/img_3.png)
 
 ### Role Table
-![Role Table](img_4.png)
+![Role Table](img/img_4.png)
 
 ### Team Table
-![Team Table](img_5.png)
-![Team Table](img_6.png)
+![Team Table](img/img_5.png)
+![Team Table](img/img_6.png)
 
 ### Coach Table
-![Coach Table](img_7.png)
+![Coach Table](img/img_7.png)
 
 ### Player Performance Table
-![Player Performance Table](img_8.png)
-![Player Performance Table](img_9.png)
+![Player Performance Table](img/img_8.png)
+![Player Performance Table](img/img_9.png)
 
 ## Step 4: Insert Values in the Database
 When inserting values into the database, follow this order:
