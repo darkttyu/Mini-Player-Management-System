@@ -36,7 +36,7 @@ def coach():
 
         # Create a container frame to hold all the widgets with padding
         container = ttk.Frame(RetrieveWindow, padding="10 10 10 10")
-        container.grid(row=0, column=0, sticky=('nsew'))
+        container.grid(row=0, column=0, sticky='nsew')
         # Create an inner frame to center the widgets
         inner_frame = ttk.Frame(container)
         inner_frame.grid(row=0, column=0, sticky='')
@@ -74,8 +74,7 @@ def coach():
         E4.grid(row=3, column=1, padx=5, pady=5, sticky=W)
 
     def ConfirmDelete():
-        answer = askyesno("Delete Coach Information", "Are you sure you want to delete the "
-                                                             "Coach Information")
+        answer = askyesno("Delete Coach Information", "Are you sure you want to delete the Coach Information")
         if answer:
             delete_coach = pdb.delete_coach_info(E9.get())
 
@@ -215,7 +214,7 @@ def coach():
 
     # Create a container frame to hold all the widgets with padding
     container = ttk.Frame(CoachWindow, padding="10 10 10 10")
-    container.grid(row=0, column=0, sticky=('nsew'))
+    container.grid(row=0, column=0, sticky='nsew')
     # Create an inner frame to center the widgets
     inner_frame = ttk.Frame(container)
     inner_frame.grid(row=0, column=0, sticky='')
@@ -336,6 +335,7 @@ def coach():
     CoachWindow.columnconfigure(0, weight=1)
     container.columnconfigure(0, weight=1)
 
+
 def statistics():
     def destroy():
         PlayerStatsWindow.destroy()
@@ -365,7 +365,7 @@ def statistics():
 
         # Create a container frame to hold all the widgets with padding
         container = ttk.Frame(RetrieveWindow, padding="10 10 10 10")
-        container.grid(row=0, column=0, sticky=('nsew'))
+        container.grid(row=0, column=0, sticky='nsew')
         # Create an inner frame to center the widgets
         inner_frame = ttk.Frame(container)
         inner_frame.grid(row=0, column=0, sticky='')
@@ -416,19 +416,17 @@ def statistics():
         E7.grid(row=6, column=1, padx=5, pady=5, sticky=W)
 
     def ConfirmDelete():
-        answer = askyesno("Delete The Player's Information", "Are you sure you want to delete the "
-                                                              "Player's Information")
+        answer = askyesno("Delete The Player's Information", "Are you sure you want to delete the Player's Information")
         if answer:
             delete_stat = pdb.delete_player_statinfo(E9.get(), E9_1.get())
 
             if delete_stat is True:
-                messagebox.showinfo("Deletion Done!", 'Player Statistics Deleted '
-                                                       'Successfully!')
+                messagebox.showinfo("Deletion Done!", 'Player Statistics Deleted Successfully!')
             elif delete_stat == 'PSTDNE':
-                messagebox.showerror('Deletion Error!', 'Cannot Delete Player. Player '
-                                                         'statistic does not exist!')
+                messagebox.showerror('Deletion Error!', 'Cannot Delete Player. Player statistic does not exist!')
             elif delete_stat == 'PDNE':
                 messagebox.showerror('Deletion Error!', 'Player does not exist')
+
     def upd_submit():
         column = None
 
@@ -467,11 +465,11 @@ def statistics():
     def ins_submitP():
         insert_playerstat = pdb.insert_playerstat_info(E1.get(), E2.get(), E3.get(), E4.get(), E5.get(), E6.get())
 
-        if insert_playerstat == 'PLDNE': # Player does not exist
+        if insert_playerstat == 'PLDNE':   # Player does not exist
             messagebox.showerror('Error!', 'Cannot Insert. Player does not exist.')
-        elif insert_playerstat == 'PSIS': # Player Insert Successfully
+        elif insert_playerstat == 'PSIS':   # Player Insert Successfully
             messagebox.showinfo('Congratulations!', 'Player Statistics Inserted Successfully!')
-        elif insert_playerstat == 'PSAE': # Player Stat Already Exists
+        elif insert_playerstat == 'PSAE':   # Player Stat Already Exists
             messagebox.showerror('Error!', 'Cannot Insert. Player Statistics already exists. Update instead.')
 
     def ins_clearP():
@@ -563,7 +561,7 @@ def statistics():
 
     # Create a container frame to hold all the widgets with padding
     container = ttk.Frame(PlayerStatsWindow, padding="10 10 10 10")
-    container.grid(row=0, column=0, sticky=('nsew'))
+    container.grid(row=0, column=0, sticky='nsew')
     # Create an inner frame to center the widgets
     inner_frame = ttk.Frame(container)
     inner_frame.grid(row=0, column=0, sticky='')
@@ -707,6 +705,8 @@ def statistics():
     container.columnconfigure(0, weight=1)
 
 # player's window
+
+
 def player():
     def destroy():
         PlayerWindow.destroy()
@@ -939,7 +939,7 @@ def player():
 
     # Create a container frame to hold all the widgets with padding
     container = ttk.Frame(PlayerWindow, padding="10 10 10 10")
-    container.grid(row=0, column=0, sticky=('nsew'))
+    container.grid(row=0, column=0, sticky='nsew')
     # Create an inner frame to center the widgets
     inner_frame = ttk.Frame(container)
     inner_frame.grid(row=0, column=0, sticky='')
@@ -1117,7 +1117,7 @@ def team():
 
             # Create inner frame for content
             inner_frame = ttk.Frame(scrollable_frame, padding="10 10 10 10")
-            inner_frame.grid(row=0, column=0, sticky=('nsew'))
+            inner_frame.grid(row=0, column=0, sticky='nsew')
 
             if CB1.get() == 'Player IGN [A]':
                 tc_info, roster = pdb.rteampName_ASC(E10.get())
@@ -1144,41 +1144,41 @@ def team():
 
                 row_start = 3
                 for i, player in enumerate(roster):
-                     L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                     L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                     L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                     L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                     L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
 
-                     EV3 = StringVar(value=player[0])
-                     EV4 = StringVar(value=player[1])
-                     EV5 = StringVar(value=player[2])
-                     EV6 = StringVar(value=player[3])
-                     EV7 = StringVar(value=player[4])
+                    EV3 = StringVar(value=player[0])
+                    EV4 = StringVar(value=player[1])
+                    EV5 = StringVar(value=player[2])
+                    EV6 = StringVar(value=player[3])
+                    EV7 = StringVar(value=player[4])
 
-                     E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                     E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                     E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                     E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                     E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
 
-                     L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                     L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                     L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                     L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                     L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
 
-                     E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                     E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                     E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                     E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                     E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
 
-                     # Add a separator
-                     separator = ttk.Separator(inner_frame, orient='horizontal')
-                     separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+                    # Add a separator
+                    separator = ttk.Separator(inner_frame, orient='horizontal')
+                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
 
-                     row_start += 6
+                    row_start += 6
             elif CB1.get() == 'Player IGN [D]':
                 tc_info, roster = pdb.rteampName_DESC(E10.get())
 
@@ -1192,7 +1192,7 @@ def team():
                 E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
                 E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
 
-                 # Populate team information
+                # Populate team information
                 EV1.set(tc_info[0])
                 EV2.set(tc_info[1])
 
@@ -1204,41 +1204,41 @@ def team():
 
                 row_start = 3
                 for i, player in enumerate(roster):
-                     L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                     L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                     L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                     L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                     L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
 
-                     EV3 = StringVar(value=player[0])
-                     EV4 = StringVar(value=player[1])
-                     EV5 = StringVar(value=player[2])
-                     EV6 = StringVar(value=player[3])
-                     EV7 = StringVar(value=player[4])
+                    EV3 = StringVar(value=player[0])
+                    EV4 = StringVar(value=player[1])
+                    EV5 = StringVar(value=player[2])
+                    EV6 = StringVar(value=player[3])
+                    EV7 = StringVar(value=player[4])
 
-                     E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                     E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                     E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                     E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                     E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
 
-                     L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                     L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                     L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                     L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                     L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
 
-                     E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                     E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                     E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                     E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                     E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
 
-                     # Add a separator
-                     separator = ttk.Separator(inner_frame, orient='horizontal')
-                     separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+                    # Add a separator
+                    separator = ttk.Separator(inner_frame, orient='horizontal')
+                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
 
-                     row_start += 6
+                    row_start += 6
             elif CB1.get() == 'Age [A]':
                 tc_info, roster = pdb.rteam_AgeASC(E10.get())
 
@@ -1252,7 +1252,7 @@ def team():
                 E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
                 E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
 
-                 # Populate team information
+                # Populate team information
                 EV1.set(tc_info[0])
                 EV2.set(tc_info[1])
 
@@ -1264,41 +1264,41 @@ def team():
 
                 row_start = 3
                 for i, player in enumerate(roster):
-                     L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                     L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                     L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                     L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                     L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
 
-                     EV3 = StringVar(value=player[0])
-                     EV4 = StringVar(value=player[1])
-                     EV5 = StringVar(value=player[2])
-                     EV6 = StringVar(value=player[3])
-                     EV7 = StringVar(value=player[4])
+                    EV3 = StringVar(value=player[0])
+                    EV4 = StringVar(value=player[1])
+                    EV5 = StringVar(value=player[2])
+                    EV6 = StringVar(value=player[3])
+                    EV7 = StringVar(value=player[4])
 
-                     E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                     E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                     E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                     E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                     E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
 
-                     L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                     L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                     L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                     L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                     L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
 
-                     E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                     E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                     E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                     E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                     E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
 
-                     # Add a separator
-                     separator = ttk.Separator(inner_frame, orient='horizontal')
-                     separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+                    # Add a separator
+                    separator = ttk.Separator(inner_frame, orient='horizontal')
+                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
 
-                     row_start += 6
+                    row_start += 6
             elif CB1.get() == 'Age [D]':
                 tc_info, roster = pdb.rteam_AgeDESC(E10.get())
 
@@ -1324,41 +1324,41 @@ def team():
 
                 row_start = 3
                 for i, player in enumerate(roster):
-                     L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                     L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                     L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                     L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                     L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
 
-                     EV3 = StringVar(value=player[0])
-                     EV4 = StringVar(value=player[1])
-                     EV5 = StringVar(value=player[2])
-                     EV6 = StringVar(value=player[3])
-                     EV7 = StringVar(value=player[4])
+                    EV3 = StringVar(value=player[0])
+                    EV4 = StringVar(value=player[1])
+                    EV5 = StringVar(value=player[2])
+                    EV6 = StringVar(value=player[3])
+                    EV7 = StringVar(value=player[4])
 
-                     E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                     E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                     E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                     E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                     E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
 
-                     L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                     L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                     L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                     L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                     L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
 
-                     E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                     E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                     E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                     E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                     E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
 
-                     # Add a separator
-                     separator = ttk.Separator(inner_frame, orient='horizontal')
-                     separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+                    # Add a separator
+                    separator = ttk.Separator(inner_frame, orient='horizontal')
+                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
 
-                     row_start += 6
+                    row_start += 6
             elif CB1.get() == 'Role [A]':
                 tc_info, roster = pdb.rteam_roleID_ASC(E10.get())
 
@@ -1384,41 +1384,41 @@ def team():
 
                 row_start = 3
                 for i, player in enumerate(roster):
-                     L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                     L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                     L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                     L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                     L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
 
-                     EV3 = StringVar(value=player[0])
-                     EV4 = StringVar(value=player[1])
-                     EV5 = StringVar(value=player[2])
-                     EV6 = StringVar(value=player[3])
-                     EV7 = StringVar(value=player[4])
+                    EV3 = StringVar(value=player[0])
+                    EV4 = StringVar(value=player[1])
+                    EV5 = StringVar(value=player[2])
+                    EV6 = StringVar(value=player[3])
+                    EV7 = StringVar(value=player[4])
 
-                     E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                     E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                     E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                     E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                     E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
 
-                     L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                     L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                     L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                     L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                     L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
 
-                     E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                     E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                     E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                     E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                     E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
 
-                     # Add a separator
-                     separator = ttk.Separator(inner_frame, orient='horizontal')
-                     separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+                    # Add a separator
+                    separator = ttk.Separator(inner_frame, orient='horizontal')
+                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
 
-                     row_start += 6
+                    row_start += 6
             elif CB1.get() == 'Role [D]':
                 tc_info, roster = pdb.rteam_roleID_DESC(E10.get())
 
@@ -1444,41 +1444,41 @@ def team():
 
                 row_start = 3
                 for i, player in enumerate(roster):
-                     L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                     L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                     L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                     L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                     L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
 
-                     EV3 = StringVar(value=player[0])
-                     EV4 = StringVar(value=player[1])
-                     EV5 = StringVar(value=player[2])
-                     EV6 = StringVar(value=player[3])
-                     EV7 = StringVar(value=player[4])
+                    EV3 = StringVar(value=player[0])
+                    EV4 = StringVar(value=player[1])
+                    EV5 = StringVar(value=player[2])
+                    EV6 = StringVar(value=player[3])
+                    EV7 = StringVar(value=player[4])
 
-                     E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                     E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                     E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                     E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                     E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
 
-                     L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                     L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                     L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                     L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                     L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
 
-                     E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                     E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                     E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                     E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                     E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
 
-                     # Add a separator
-                     separator = ttk.Separator(inner_frame, orient='horizontal')
-                     separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+                    # Add a separator
+                    separator = ttk.Separator(inner_frame, orient='horizontal')
+                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
 
-                     row_start += 6
+                    row_start += 6
             else:
                 messagebox.showerror('Error!', 'Choose a column')
                 return
@@ -1577,7 +1577,6 @@ def team():
             separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
 
             row_start += 6
-
 
     def ConfirmDelete():
         answer = askyesno("Delete The Player's Information", "Are you sure you want to delete the "
@@ -1729,7 +1728,7 @@ def team():
 
     # Create a container frame to hold all the widgets with padding
     container = ttk.Frame(TeamWindow, padding="10 10 10 10")
-    container.grid(row=0, column=0, sticky=('nsew'))
+    container.grid(row=0, column=0, sticky='nsew')
     # Create an inner frame to center the widgets
     inner_frame = ttk.Frame(container)
     inner_frame.grid(row=0, column=0, sticky='')
@@ -1870,7 +1869,7 @@ def main():
 
     # Create a container frame to hold all the widgets with padding
     container = ttk.Frame(frame, padding="15 15 15 15")
-    container.grid(row=0, column=0, sticky=('nsew'))
+    container.grid(row=0, column=0, sticky='nsew')
 
     # Configure the grid to expand and center widgets
     frame.columnconfigure(0, weight=1)
@@ -1906,7 +1905,6 @@ def main():
     B4.grid(row=3, column=1, padx=10, pady=10, sticky=W)
     B5.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
 
-
     # Start the main loop
     frame.mainloop()
 
@@ -1935,7 +1933,7 @@ def login():
 
     # Create a container frame to hold all the widgets with padding
     container = ttk.Frame(frame, padding="15 15 15 15")
-    container.grid(row=0, column=0, sticky=('nsew'))
+    container.grid(row=0, column=0, sticky='nsew')
 
     # Configure the grid to expand and center widgets
     frame.columnconfigure(0, weight=1)
