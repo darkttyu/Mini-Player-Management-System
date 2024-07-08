@@ -381,7 +381,7 @@ def rteam_AgeASC(teamID):
                                "FROM player AS p "
                                "JOIN role AS r ON p.role_ID = r.role_ID "
                                "WHERE p.team_ID = %s"
-                               "ORDER BY AGE")
+                               "ORDER BY AGE ASC")
     cursor.execute(retrieve_roster_formula, (teamID,))
     roster_list = cursor.fetchall()
 
@@ -447,7 +447,7 @@ def rteampName_ASC(teamID):
                                "FROM player AS p "
                                "JOIN role AS r ON p.role_ID = r.role_ID "
                                "WHERE p.team_ID = %s"
-                               "ORDER BY playerName")
+                               "ORDER BY playerName ASC")
     cursor.execute(retrieve_roster_formula, (teamID,))
     roster_list = cursor.fetchall()
 
@@ -513,7 +513,7 @@ def rteam_roleID_ASC(teamID):
                                "FROM player AS p "
                                "JOIN role AS r ON p.role_ID = r.role_ID "
                                "WHERE p.team_ID = %s"
-                               "ORDER BY r.role_ID")
+                               "ORDER BY r.role_ID ASC")
     cursor.execute(retrieve_roster_formula, (teamID,))
     roster_list = cursor.fetchall()
 

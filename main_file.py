@@ -1239,7 +1239,7 @@ def team():
 
                      row_start += 6
             elif CB1.get() == 'Age [A]':
-                tc_info, roster = pdb.rteam_AgeDESC(E10.get())
+                tc_info, roster = pdb.rteam_AgeASC(E10.get())
 
                 L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER AGE IN ASCENDING ORDER", font=('Helvetica', 10,
                                                                                                    'bold'))
