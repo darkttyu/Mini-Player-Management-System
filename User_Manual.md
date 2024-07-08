@@ -14,6 +14,8 @@ In the `database.py` file, connect it to your MySQL Workbench by updating the co
 
 ![Database Connection](img/img.png)
 
+MAKE SURE TO CHANGE THE NECESSARY DETAILS SUCH AS THE HOST!!!!
+
 ## Step 3: Create Tables in MySQL Workbench
 Here are the table settings for your MySQL Workbench:
 
