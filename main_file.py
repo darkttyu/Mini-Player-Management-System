@@ -1086,6 +1086,7 @@ def team():
             return
 
         def SortedWindow():
+
             SortWindow = Toplevel()
             SortWindow.geometry("800x600")
             SortWindow.title("Sorted Display Player Information")
@@ -1478,6 +1479,9 @@ def team():
                      separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
 
                      row_start += 6
+            else:
+                messagebox.showerror('Error!', 'Choose a column')
+                return
 
         RetrieveWindow = Toplevel()
         RetrieveWindow.title("Display Player Information")
