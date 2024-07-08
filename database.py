@@ -70,7 +70,7 @@ def retrieve_playerstat_info(name, year):
     if retrieved_player is None:
         return 'PDNE'
 
-    retrieve_stat_formula = ("SELECT * FROM player_performance WHERE playerName = %s AND year = %s")
+    retrieve_stat_formula = ("SELECT * FROM player_performance WHERE playerName = %s AND year_played = %s")
     cursor.execute(retrieve_stat_formula, (name, year))
     retrieved_stat = cursor.fetchone()
 
