@@ -1081,6 +1081,10 @@ def team():
     def DisplayWindow():
         tc_info, roster = pdb.retrieve_roster_info(E10.get())
 
+        if tc_info is False:
+            messagebox.showerror('Error!', 'Team does not exist!')
+            return
+
         RetrieveWindow = Toplevel()
         RetrieveWindow.title("Display Player Information")
         screen_width = RetrieveWindow.winfo_screenwidth()
@@ -1114,7 +1118,7 @@ def team():
         inner_frame.grid(row=0, column=0, sticky=('nsew'))
 
         # widgets
-        SORTING = ['Player IGN [A]', 'Player IGN [D]', 'Age']
+        SORTING = ['Player IGN [A]', 'Player IGN [D]', 'Age [A]', 'Age [D]', 'Role [A]', 'Role [D]']
         CB1 = ttk.Combobox(inner_frame, values=SORTING, state="readonly")
         L0 = ttk.Label(inner_frame, text="SORTING", font=('Helvetica', 10, 'bold'))
         L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))

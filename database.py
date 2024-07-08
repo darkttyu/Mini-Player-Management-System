@@ -321,30 +321,236 @@ def insert_team(team_id, team_name, recent_match, coach_ID):
             return 'TIDAE' # Team ID already exists
 
 def retrieve_roster_info(teamID):
-    check_teamID_formula = ("SELECT * FROM PLAYER WHERE team_ID = %s") # Gets all player info in a team
-    cursor.execute(check_teamID_formula, (teamID, ))
+    # Coach and Team Retrieval
+    retrieve_coach_team_formula = ("SELECT t.teamName, c.coachName "
+                                   "FROM team AS t "
+                                   "JOIN coach as c ON t.coach_ID = c.coach_ID "
+                                   "WHERE t.team_ID = %s")
+    cursor.execute(retrieve_coach_team_formula, (teamID,))
+    team_coach_info = cursor.fetchone()
+
+    if team_coach_info is None:
+        return False, False  # Return False values if no coach or team found
+
+    team_coach_info = list(team_coach_info)
+
+    # Check if any players exist in the team
+    check_teamID_formula = "SELECT * FROM PLAYER WHERE team_ID = %s"
+    cursor.execute(check_teamID_formula, (teamID,))
     result = cursor.fetchall()
 
-    if result is None:
-        return False # To be Updated
-    else:
-        # Roster Retrieval
-        retrieve_roster_formula = ("SELECT p.playerName, p.pFName, p.pLName, p.age, r.roleName "
-                                   "FROM player AS p "
-                                   "JOIN role AS r ON p.role_ID = r.role_ID "
-                                   "WHERE p.team_ID = %s ")
-        cursor.execute(retrieve_roster_formula, (teamID,))
-        roster_list = cursor.fetchall()
+    if not result:
+        return False, False  # Return False values if no players found
 
-        # Coach and Team Retrieval
-        retrieve_coach_team_formula = ("SELECT t.teamName, c.coachName "
-                                       "FROM team AS t "
-                                       "JOIN coach as c ON t.coach_ID = c.coach_ID "
-                                       "WHERE t.team_ID = %s ")
-        cursor.execute(retrieve_coach_team_formula, (teamID, ))
-        team_coach_info = list(cursor.fetchone())
+    # Roster Retrieval
+    retrieve_roster_formula = ("SELECT p.playerName, p.pFName, p.pLName, p.age, r.roleName "
+                               "FROM player AS p "
+                               "JOIN role AS r ON p.role_ID = r.role_ID "
+                               "WHERE p.team_ID = %s")
+    cursor.execute(retrieve_roster_formula, (teamID,))
+    roster_list = cursor.fetchall()
 
-        return team_coach_info, roster_list
+    return team_coach_info, roster_list
+
+
+# Sorting
+def rteam_AgeASC(teamID):
+    # Coach and Team Retrieval
+    retrieve_coach_team_formula = ("SELECT t.teamName, c.coachName "
+                                   "FROM team AS t "
+                                   "JOIN coach as c ON t.coach_ID = c.coach_ID "
+                                   "WHERE t.team_ID = %s")
+    cursor.execute(retrieve_coach_team_formula, (teamID,))
+    team_coach_info = cursor.fetchone()
+
+    if team_coach_info is None:
+        return False, False  # Return False values if no coach or team found
+
+    team_coach_info = list(team_coach_info)
+
+    # Check if any players exist in the team
+    check_teamID_formula = "SELECT * FROM PLAYER WHERE team_ID = %s"
+    cursor.execute(check_teamID_formula, (teamID,))
+    result = cursor.fetchall()
+
+    if not result:
+        return False, False  # Return False values if no players found
+
+    # Roster Retrieval
+    retrieve_roster_formula = ("SELECT p.playerName, p.pFName, p.pLName, p.age, r.roleName "
+                               "FROM player AS p "
+                               "JOIN role AS r ON p.role_ID = r.role_ID "
+                               "WHERE p.team_ID = %s"
+                               "ORDER BY AGE")
+    cursor.execute(retrieve_roster_formula, (teamID,))
+    roster_list = cursor.fetchall()
+
+    return team_coach_info, roster_list
+
+def rteam_AgeDESC(teamID):
+    # Coach and Team Retrieval
+    retrieve_coach_team_formula = ("SELECT t.teamName, c.coachName "
+                                   "FROM team AS t "
+                                   "JOIN coach as c ON t.coach_ID = c.coach_ID "
+                                   "WHERE t.team_ID = %s")
+    cursor.execute(retrieve_coach_team_formula, (teamID,))
+    team_coach_info = cursor.fetchone()
+
+    if team_coach_info is None:
+        return False, False  # Return False values if no coach or team found
+
+    team_coach_info = list(team_coach_info)
+
+    # Check if any players exist in the team
+    check_teamID_formula = "SELECT * FROM PLAYER WHERE team_ID = %s"
+    cursor.execute(check_teamID_formula, (teamID,))
+    result = cursor.fetchall()
+
+    if not result:
+        return False, False  # Return False values if no players found
+
+    # Roster Retrieval
+    retrieve_roster_formula = ("SELECT p.playerName, p.pFName, p.pLName, p.age, r.roleName "
+                               "FROM player AS p "
+                               "JOIN role AS r ON p.role_ID = r.role_ID "
+                               "WHERE p.team_ID = %s"
+                               "ORDER BY AGE DESC")
+    cursor.execute(retrieve_roster_formula, (teamID,))
+    roster_list = cursor.fetchall()
+
+    return team_coach_info, roster_list
+
+def rteampName_ASC(teamID):
+    # Coach and Team Retrieval
+    retrieve_coach_team_formula = ("SELECT t.teamName, c.coachName "
+                                   "FROM team AS t "
+                                   "JOIN coach as c ON t.coach_ID = c.coach_ID "
+                                   "WHERE t.team_ID = %s")
+    cursor.execute(retrieve_coach_team_formula, (teamID,))
+    team_coach_info = cursor.fetchone()
+
+    if team_coach_info is None:
+        return False, False  # Return False values if no coach or team found
+
+    team_coach_info = list(team_coach_info)
+
+    # Check if any players exist in the team
+    check_teamID_formula = "SELECT * FROM PLAYER WHERE team_ID = %s"
+    cursor.execute(check_teamID_formula, (teamID,))
+    result = cursor.fetchall()
+
+    if not result:
+        return False, False  # Return False values if no players found
+
+    # Roster Retrieval
+    retrieve_roster_formula = ("SELECT p.playerName, p.pFName, p.pLName, p.age, r.roleName "
+                               "FROM player AS p "
+                               "JOIN role AS r ON p.role_ID = r.role_ID "
+                               "WHERE p.team_ID = %s"
+                               "ORDER BY playerName")
+    cursor.execute(retrieve_roster_formula, (teamID,))
+    roster_list = cursor.fetchall()
+
+    return team_coach_info, roster_list
+
+def rteampName_DESC(teamID):
+    # Coach and Team Retrieval
+    retrieve_coach_team_formula = ("SELECT t.teamName, c.coachName "
+                                   "FROM team AS t "
+                                   "JOIN coach as c ON t.coach_ID = c.coach_ID "
+                                   "WHERE t.team_ID = %s")
+    cursor.execute(retrieve_coach_team_formula, (teamID,))
+    team_coach_info = cursor.fetchone()
+
+    if team_coach_info is None:
+        return False, False  # Return False values if no coach or team found
+
+    team_coach_info = list(team_coach_info)
+
+    # Check if any players exist in the team
+    check_teamID_formula = "SELECT * FROM PLAYER WHERE team_ID = %s"
+    cursor.execute(check_teamID_formula, (teamID,))
+    result = cursor.fetchall()
+
+    if not result:
+        return False, False  # Return False values if no players found
+
+    # Roster Retrieval
+    retrieve_roster_formula = ("SELECT p.playerName, p.pFName, p.pLName, p.age, r.roleName "
+                               "FROM player AS p "
+                               "JOIN role AS r ON p.role_ID = r.role_ID "
+                               "WHERE p.team_ID = %s"
+                               "ORDER BY playerName DESC")
+    cursor.execute(retrieve_roster_formula, (teamID,))
+    roster_list = cursor.fetchall()
+
+    return team_coach_info, roster_list
+
+def rteam_roleID_ASC(teamID):
+    # Coach and Team Retrieval
+    retrieve_coach_team_formula = ("SELECT t.teamName, c.coachName "
+                                   "FROM team AS t "
+                                   "JOIN coach as c ON t.coach_ID = c.coach_ID "
+                                   "WHERE t.team_ID = %s")
+    cursor.execute(retrieve_coach_team_formula, (teamID,))
+    team_coach_info = cursor.fetchone()
+
+    if team_coach_info is None:
+        return False, False  # Return False values if no coach or team found
+
+    team_coach_info = list(team_coach_info)
+
+    # Check if any players exist in the team
+    check_teamID_formula = "SELECT * FROM PLAYER WHERE team_ID = %s"
+    cursor.execute(check_teamID_formula, (teamID,))
+    result = cursor.fetchall()
+
+    if not result:
+        return False, False  # Return False values if no players found
+
+    # Roster Retrieval
+    retrieve_roster_formula = ("SELECT p.playerName, p.pFName, p.pLName, p.age, r.roleName "
+                               "FROM player AS p "
+                               "JOIN role AS r ON p.role_ID = r.role_ID "
+                               "WHERE p.team_ID = %s"
+                               "ORDER BY r.role_ID")
+    cursor.execute(retrieve_roster_formula, (teamID,))
+    roster_list = cursor.fetchall()
+
+    return team_coach_info, roster_list
+
+def rteam_roleID_DESC(teamID):
+    # Coach and Team Retrieval
+    retrieve_coach_team_formula = ("SELECT t.teamName, c.coachName "
+                                   "FROM team AS t "
+                                   "JOIN coach as c ON t.coach_ID = c.coach_ID "
+                                   "WHERE t.team_ID = %s")
+    cursor.execute(retrieve_coach_team_formula, (teamID,))
+    team_coach_info = cursor.fetchone()
+
+    if team_coach_info is None:
+        return False, False  # Return False values if no coach or team found
+
+    team_coach_info = list(team_coach_info)
+
+    # Check if any players exist in the team
+    check_teamID_formula = "SELECT * FROM PLAYER WHERE team_ID = %s"
+    cursor.execute(check_teamID_formula, (teamID,))
+    result = cursor.fetchall()
+
+    if not result:
+        return False, False  # Return False values if no players found
+
+    # Roster Retrieval
+    retrieve_roster_formula = ("SELECT p.playerName, p.pFName, p.pLName, p.age, r.roleName "
+                               "FROM player AS p "
+                               "JOIN role AS r ON p.role_ID = r.role_ID "
+                               "WHERE p.team_ID = %s"
+                               "ORDER BY r.role_ID DESC")
+    cursor.execute(retrieve_roster_formula, (teamID,))
+    roster_list = cursor.fetchall()
+
+    return team_coach_info, roster_list
 
 def update_team_info(teamID, column, new_value):
     team_info = ['team_ID', 'teamName', 'recent_match', 'coach_ID']
