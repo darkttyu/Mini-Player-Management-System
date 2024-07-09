@@ -60,24 +60,28 @@ def insert_playerstat_info(name, year, games, most_used, wr, participation):
 
 # Function to retrieve player performance statistics
 def retrieve_playerstat_info(name, year):
-    # SQL query to select player performance statistics
-    retrieve_player_formula = ("SELECT * FROM player_performance WHERE playerName = %s")
+    retrieve_player_formula = "SELECT * FROM player_performance WHERE playerName = %s"
     cursor.execute(retrieve_player_formula, (name,))
+
     # Fetch one result
     retrieved_player = cursor.fetchone()
 
-    # If no result is found, return 'PSDNE' (Player Statistics Do Not Exist)
+    # If no result is found, return 'PDNE' (Player Statistics Do Not Exist)
     if retrieved_player is None:
         return 'PDNE'
 
-    retrieve_stat_formula = ("SELECT * FROM player_performance WHERE playerName = %s AND year_played = %s")
+    # Ensure all results from the previous query are read
+    cursor.fetchall()  # Fetch all remaining results (if any) and discard them
+
+    retrieve_stat_formula = "SELECT * FROM player_performance WHERE playerName = %s AND year_played = %s"
     cursor.execute(retrieve_stat_formula, (name, year))
     retrieved_stat = cursor.fetchone()
 
     if retrieved_stat is not None:
         return list(retrieved_stat)
     else:
-        return 'PSDNE'
+        return 'PDNE'
+
 
 # Function to update player performance statistics
 def update_playerstat_info(name, year, column, new_value):
