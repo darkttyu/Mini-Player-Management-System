@@ -849,6 +849,8 @@ def player():
             messagebox.showerror('Error!', 'Cannot Insert Player. Maximum Players for Team reached.')
         elif insert_player == 'PLAE':
             messagebox.showerror('Error!', 'Player already exists! Cannot insert player.')
+        elif insert_player == 'TDNE':
+            messagebox.showerror('Error!', 'Cannot Insert Player. Team does not exist!')
 
     def ins_clearP():
         ClearInsert = [E1, E2, E3, E4, E5, E6]

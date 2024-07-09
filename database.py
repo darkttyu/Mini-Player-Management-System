@@ -161,6 +161,13 @@ def insert_player(IGN, FName, LName, age, role_ID, team_ID):
     cursor.execute(check_teamCount_formula, (team_ID,))
     count_result = cursor.fetchone()
 
+    check_team = ("SELECT team_ID FROM TEAM WHERE team_ID = %s")
+    cursor.execute(check_team, (team_ID,))
+    result = cursor.fetchone()
+
+    if result is None:
+        return 'TDNE'
+
     # If the team has 5 or fewer players
     if count_result[0] <= 5:
         # If the player does not exist, insert the new player
