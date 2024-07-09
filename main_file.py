@@ -226,7 +226,7 @@ def coach():
     style.configure("TButton", font=('Helvetica', 10), padding=5)
 
     # Creating widgets for INSERTING
-    L1 = ttk.Label(inner_frame, text="\t\tCOACH INFORMATION", font=('Helvetica', 16, 'bold'))
+    L1 = ttk.Label(inner_frame, text="\t\t       COACH INFORMATION", font=('Helvetica', 16, 'bold'))
     RB1 = IntVar()
     R1 = ttk.Radiobutton(inner_frame, text="Insert", style="TRadiobutton",
                          variable=RB1, value=1, command=InsertActivate)
@@ -951,7 +951,7 @@ def player():
     style.configure("TButton", font=('Helvetica', 10), padding=5)
 
     # Creating widgets for INSERTING
-    L1 = ttk.Label(inner_frame, text="\t\tPLAYER'S INFORMATION", font=('Helvetica', 16, 'bold'))
+    L1 = ttk.Label(inner_frame, text="\t\t       PLAYER'S INFORMATION", font=('Helvetica', 16, 'bold'))
     RB1 = IntVar()
     R1 = ttk.Radiobutton(inner_frame, text="Insert", style="TRadiobutton",
                          variable=RB1, value=1, command=InsertActivate)
@@ -1740,7 +1740,7 @@ def team():
     style.configure("TButton", font=('Helvetica', 10), padding=5)
 
     # Creating widgets for INSERTING
-    L1 = ttk.Label(inner_frame, text="\t\tTEAM'S INFORMATION", font=('Helvetica', 16, 'bold'))
+    L1 = ttk.Label(inner_frame, text="\t\t       TEAM'S INFORMATION", font=('Helvetica', 16, 'bold'))
     RB1 = IntVar()
     R1 = ttk.Radiobutton(inner_frame, text="Insert", style="TRadiobutton",
                          variable=RB1, value=1, command=InsertActivate)
@@ -1856,7 +1856,7 @@ def main():
         login()
 
     frame = Tk()
-    frame.title("Esports Projects")
+    frame.title("Esports Project")
 
     # Center the main window on the screen
     screen_width = frame.winfo_screenwidth()
@@ -1920,7 +1920,7 @@ def login():
             showinfo("Message", "Invalid Credentials!")
 
     frame = Tk()
-    frame.title("Esports Projects Login")
+    frame.title("Esports Project Login")
 
     # Center the main window on the screen
     screen_width = frame.winfo_screenwidth()
