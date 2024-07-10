@@ -16,45 +16,58 @@ def coach():
         CoachWindow.destroy()
 
     def DisplayWindow():
+        # Retrieve coach information based on Coach ID
         coach_information = pdb.retrieve_coach_info(E10.get())
 
         if coach_information == 'DNE':
             messagebox.showerror('Error!', 'Cannot Retrieve Data. Coach ID does not exist!')
             return
 
+        # Create a new window to display coach information
         RetrieveWindow = Toplevel()
         RetrieveWindow.title("Display Coach Information")
-        RetrieveWindow.geometry("")
-        # Center the main window on the screen
-        screen_width = RetrieveWindow.winfo_screenwidth()
-        screen_height = RetrieveWindow.winfo_screenheight()
+        RetrieveWindow.configure(bg='#F0F8FF')
+
+        # Set window size
         window_width = 800
         window_height = 600
+        screen_width = RetrieveWindow.winfo_screenwidth()
+        screen_height = RetrieveWindow.winfo_screenheight()
         position_top = int(screen_height / 2 - window_height / 2)
         position_right = int(screen_width / 2 - window_width / 2)
         RetrieveWindow.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
         # Create a container frame to hold all the widgets with padding
-        container = ttk.Frame(RetrieveWindow, padding="10 10 10 10")
+        container = ttk.Frame(RetrieveWindow, padding="10 10 10 10", style="Container.TFrame")
         container.grid(row=0, column=0, sticky='nsew')
-        # Create an inner frame to center the widgets
-        inner_frame = ttk.Frame(container)
-        inner_frame.grid(row=0, column=0, sticky='')
+        container.columnconfigure(0, weight=1)
+        container.rowconfigure(0, weight=1)
 
-        # widgets
-        L1 = ttk.Label(inner_frame, text="Coach ID:", font=('Helvetica', 10, 'bold'))
-        L2 = ttk.Label(inner_frame, text="Coach IGN:", font=('Helvetica', 10, 'bold'))
-        L3 = ttk.Label(inner_frame, text="Coach First Name:", font=('Helvetica', 10, 'bold'))
-        L4 = ttk.Label(inner_frame, text="Coach Last Name:", font=('Helvetica', 10, 'bold'))
+        # Create a white frame to center the widgets
+        inner_frame = ttk.Frame(container, padding="20 20 20 20", style="Inner.TFrame")
+        inner_frame.grid(row=0, column=0, sticky='n')
+        inner_frame.columnconfigure(0, weight=1)
+        inner_frame.columnconfigure(1, weight=1)
+
+        # Create styles
+        style = ttk.Style()
+        style.configure("Container.TFrame", background='#F0F8FF')
+        style.configure("Inner.TFrame", background='#FFFFFF', relief='solid')
+
+        # Widgets
+        L1 = ttk.Label(inner_frame, text="Coach ID:", font=('Helvetica', 12, 'bold'), background='#FFFFFF')
+        L2 = ttk.Label(inner_frame, text="Coach IGN:", font=('Helvetica', 12, 'bold'), background='#FFFFFF')
+        L3 = ttk.Label(inner_frame, text="Coach First Name:", font=('Helvetica', 12, 'bold'), background='#FFFFFF')
+        L4 = ttk.Label(inner_frame, text="Coach Last Name:", font=('Helvetica', 12, 'bold'), background='#FFFFFF')
 
         EV1 = StringVar()
         EV2 = StringVar()
         EV3 = StringVar()
         EV4 = StringVar()
-        E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
-        E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
-        E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-        E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+        E1 = Entry(inner_frame, state="readonly", textvariable=EV1, bg='#F0F8FF')
+        E2 = Entry(inner_frame, state="readonly", textvariable=EV2, bg='#F0F8FF')
+        E3 = Entry(inner_frame, state="readonly", textvariable=EV3, bg='#F0F8FF')
+        E4 = Entry(inner_frame, state="readonly", textvariable=EV4, bg='#F0F8FF')
 
         # Logic
         EV1.set(coach_information[0])
@@ -62,16 +75,25 @@ def coach():
         EV3.set(coach_information[2])
         EV4.set(coach_information[3])
 
-        # packing
-        L1.grid(row=0, column=0, padx=5, pady=5, sticky=W)
-        L2.grid(row=1, column=0, padx=5, pady=5, sticky=W)
-        L3.grid(row=2, column=0, padx=5, pady=5, sticky=W)
-        L4.grid(row=3, column=0, padx=5, pady=5, sticky=W)
-
+        # Packing
+        L1.grid(row=0, column=0, padx=5, pady=5, sticky=E)
         E1.grid(row=0, column=1, padx=5, pady=5, sticky=W)
+        L2.grid(row=1, column=0, padx=5, pady=5, sticky=E)
         E2.grid(row=1, column=1, padx=5, pady=5, sticky=W)
+        L3.grid(row=2, column=0, padx=5, pady=5, sticky=E)
         E3.grid(row=2, column=1, padx=5, pady=5, sticky=W)
+        L4.grid(row=3, column=0, padx=5, pady=5, sticky=E)
         E4.grid(row=3, column=1, padx=5, pady=5, sticky=W)
+
+        # Update labels' background to match the frame background
+        labels = [L1, L2, L3, L4]
+        for label in labels:
+            label.configure(background='#FFFFFF')
+
+        # Center inner frame in the middle of the window
+        inner_frame.grid(row=0, column=0, sticky='nsew', pady=(200, 0), padx=(225, 0))
+        inner_frame.columnconfigure(0, weight=1)
+        inner_frame.columnconfigure(1, weight=1)
 
     def ConfirmDelete():
         answer = askyesno("Delete Coach Information", "Are you sure you want to delete the Coach Information")
@@ -341,7 +363,6 @@ def statistics():
         PlayerStatsWindow.destroy()
 
     def DisplayWindow():
-
         player_stat = pdb.retrieve_playerstat_info(E10.get(), E10_1.get())
 
         if player_stat == 'PSDNE':
@@ -353,24 +374,35 @@ def statistics():
 
         RetrieveWindow = Toplevel()
         RetrieveWindow.title("Display Player Stats Information")
-        RetrieveWindow.geometry("")
+        RetrieveWindow.configure(bg='#F0F8FF')
+
         # Center the main window on the screen
-        screen_width = RetrieveWindow.winfo_screenwidth()
-        screen_height = RetrieveWindow.winfo_screenheight()
         window_width = 800
         window_height = 600
+        screen_width = RetrieveWindow.winfo_screenwidth()
+        screen_height = RetrieveWindow.winfo_screenheight()
         position_top = int(screen_height / 2 - window_height / 2)
         position_right = int(screen_width / 2 - window_width / 2)
         RetrieveWindow.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
         # Create a container frame to hold all the widgets with padding
-        container = ttk.Frame(RetrieveWindow, padding="10 10 10 10")
+        container = ttk.Frame(RetrieveWindow, padding="10 10 10 10", style="Container.TFrame")
         container.grid(row=0, column=0, sticky='nsew')
-        # Create an inner frame to center the widgets
-        inner_frame = ttk.Frame(container)
-        inner_frame.grid(row=0, column=0, sticky='')
+        container.columnconfigure(0, weight=1)
+        container.rowconfigure(0, weight=1)
 
-        # widgets
+        # Create a white frame to center the widgets
+        inner_frame = ttk.Frame(container, padding="20 20 20 20", style="Inner.TFrame")
+        inner_frame.grid(row=0, column=0, sticky='n')
+        inner_frame.columnconfigure(0, weight=1)
+        inner_frame.columnconfigure(1, weight=1)
+
+        # Create styles
+        style = ttk.Style()
+        style.configure("Container.TFrame", background='#F0F8FF')
+        style.configure("Inner.TFrame", background='#FFFFFF', relief='solid')
+
+        # Widgets
         L1 = ttk.Label(inner_frame, text="Player IGN:", font=('Helvetica', 10, 'bold'))
         L2 = ttk.Label(inner_frame, text="Year:", font=('Helvetica', 10, 'bold'))
         L3 = ttk.Label(inner_frame, text="Games Played:", font=('Helvetica', 10, 'bold'))
@@ -384,6 +416,7 @@ def statistics():
         EV4 = StringVar()
         EV5 = StringVar()
         EV6 = StringVar()
+
         E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
         E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
         E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
@@ -392,28 +425,37 @@ def statistics():
         E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
 
         # Logic
-        EV1.set(player_stat[1])
-        EV2.set(player_stat[2])
-        EV3.set(player_stat[3])
-        EV4.set(player_stat[4])
-        EV5.set(player_stat[5])
-        EV6.set(player_stat[6])
+        EV1.set(player_stat[0])
+        EV2.set(player_stat[1])
+        EV3.set(player_stat[2])
+        EV4.set(player_stat[3])
+        EV5.set(player_stat[4])
+        EV6.set(player_stat[5])
 
-        # packing
+        # Packing
         L1.grid(row=0, column=0, padx=5, pady=5, sticky=W)
         L2.grid(row=1, column=0, padx=5, pady=5, sticky=W)
         L3.grid(row=2, column=0, padx=5, pady=5, sticky=W)
         L4.grid(row=3, column=0, padx=5, pady=5, sticky=W)
         L5.grid(row=4, column=0, padx=5, pady=5, sticky=W)
         L6.grid(row=5, column=0, padx=5, pady=5, sticky=W)
-        L7.grid(row=6, column=0, padx=5, pady=5, sticky=W)
+
         E1.grid(row=0, column=1, padx=5, pady=5, sticky=W)
         E2.grid(row=1, column=1, padx=5, pady=5, sticky=W)
         E3.grid(row=2, column=1, padx=5, pady=5, sticky=W)
         E4.grid(row=3, column=1, padx=5, pady=5, sticky=W)
         E5.grid(row=4, column=1, padx=5, pady=5, sticky=W)
         E6.grid(row=5, column=1, padx=5, pady=5, sticky=W)
-        E7.grid(row=6, column=1, padx=5, pady=5, sticky=W)
+
+        # Update labels' background to match the frame background
+        labels = [L1, L2, L3, L4]
+        for label in labels:
+            label.configure(background='#FFFFFF')
+
+        # Center inner frame in the middle of the window
+        inner_frame.grid(row=0, column=0, sticky='nsew', pady=(150, 0), padx=(250, 0))
+        inner_frame.columnconfigure(0, weight=1)
+        inner_frame.columnconfigure(1, weight=1)
 
     def ConfirmDelete():
         answer = askyesno("Delete The Player's Information", "Are you sure you want to delete the Player's Information")
@@ -720,24 +762,35 @@ def player():
 
         RetrieveWindow = Toplevel()
         RetrieveWindow.title("Display Player Information")
-        RetrieveWindow.geometry("")
+        RetrieveWindow.configure(bg='#F0F8FF')
+
         # Center the main window on the screen
-        screen_width = RetrieveWindow.winfo_screenwidth()
-        screen_height = RetrieveWindow.winfo_screenheight()
         window_width = 800
         window_height = 600
+        screen_width = RetrieveWindow.winfo_screenwidth()
+        screen_height = RetrieveWindow.winfo_screenheight()
         position_top = int(screen_height / 2 - window_height / 2)
         position_right = int(screen_width / 2 - window_width / 2)
         RetrieveWindow.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
         # Create a container frame to hold all the widgets with padding
-        container = ttk.Frame(RetrieveWindow, padding="10 10 10 10")
-        container.grid(row=0, column=0, sticky=('nsew'))
-        # Create an inner frame to center the widgets
-        inner_frame = ttk.Frame(container)
-        inner_frame.grid(row=0, column=0, sticky='')
+        container = ttk.Frame(RetrieveWindow, padding="10 10 10 10", style="Container.TFrame")
+        container.grid(row=0, column=0, sticky='nsew')
+        container.columnconfigure(0, weight=1)
+        container.rowconfigure(0, weight=1)
 
-        # widgets
+        # Create a white frame to center the widgets
+        inner_frame = ttk.Frame(container, padding="20 20 20 20", style="Inner.TFrame")
+        inner_frame.grid(row=0, column=0, sticky='n')
+        inner_frame.columnconfigure(0, weight=1)
+        inner_frame.columnconfigure(1, weight=1)
+
+        # Create styles
+        style = ttk.Style()
+        style.configure("Container.TFrame", background='#F0F8FF')
+        style.configure("Inner.TFrame", background='#FFFFFF', relief='solid')
+
+        # Widgets
         L1 = ttk.Label(inner_frame, text="Player IGN:", font=('Helvetica', 10, 'bold'))
         L2 = ttk.Label(inner_frame, text="Player First Name:", font=('Helvetica', 10, 'bold'))
         L3 = ttk.Label(inner_frame, text="Player Last Name:", font=('Helvetica', 10, 'bold'))
@@ -753,6 +806,7 @@ def player():
         EV5 = StringVar()
         EV6 = StringVar()
         EV7 = StringVar()
+
         E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
         E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
         E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
@@ -760,6 +814,32 @@ def player():
         E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
         E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
         E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+
+        # Logic to set values
+        EV1.set(player_information[0])
+        EV2.set(player_information[1])
+        EV3.set(player_information[2])
+        EV4.set(player_information[3])
+        EV5.set(player_information[4])
+        EV6.set(player_information[5])
+        EV7.set(player_information[6])
+
+        # Layout with grid
+        L1.grid(row=0, column=0, padx=5, pady=5, sticky='w')
+        L2.grid(row=1, column=0, padx=5, pady=5, sticky='w')
+        L3.grid(row=2, column=0, padx=5, pady=5, sticky='w')
+        L4.grid(row=3, column=0, padx=5, pady=5, sticky='w')
+        L5.grid(row=4, column=0, padx=5, pady=5, sticky='w')
+        L6.grid(row=5, column=0, padx=5, pady=5, sticky='w')
+        L7.grid(row=6, column=0, padx=5, pady=5, sticky='w')
+
+        E1.grid(row=0, column=1, padx=5, pady=5, sticky='w')
+        E2.grid(row=1, column=1, padx=5, pady=5, sticky='w')
+        E3.grid(row=2, column=1, padx=5, pady=5, sticky='w')
+        E4.grid(row=3, column=1, padx=5, pady=5, sticky='w')
+        E5.grid(row=4, column=1, padx=5, pady=5, sticky='w')
+        E6.grid(row=5, column=1, padx=5, pady=5, sticky='w')
+        E7.grid(row=6, column=1, padx=5, pady=5, sticky='w')
 
         # Logic
         EV1.set(player_information[0])
@@ -785,6 +865,16 @@ def player():
         E5.grid(row=4, column=1, padx=5, pady=5, sticky=W)
         E6.grid(row=5, column=1, padx=5, pady=5, sticky=W)
         E7.grid(row=6, column=1, padx=5, pady=5, sticky=W)
+
+        # Update labels' background to match the frame background
+        labels = [L1, L2, L3, L4]
+        for label in labels:
+            label.configure(background='#FFFFFF')
+
+        # Center inner frame in the middle of the window
+        inner_frame.grid(row=0, column=0, sticky='nsew', pady=(150, 0), padx=(250, 0))
+        inner_frame.columnconfigure(0, weight=1)
+        inner_frame.columnconfigure(1, weight=1)
 
     def ConfirmDelete():
         answer = askyesno("Delete The Player's Information", "Are you sure you want to delete the "
@@ -1088,405 +1178,456 @@ def team():
             return
 
         def SortedWindow():
-
-            SortWindow = Toplevel()
-            SortWindow.geometry("800x600")
-            SortWindow.title("Sorted Display Player Information")
-            screen_width = SortWindow.winfo_screenwidth()
-            screen_height = SortWindow.winfo_screenheight()
-            window_width = 800
-            window_height = 600
-            position_top = int(screen_height / 2 - window_height / 2)
-            position_right = int(screen_width / 2 - window_width / 2)
-            SortWindow.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
-
-            canvas = tk.Canvas(SortWindow)
-            scrollbar = ttk.Scrollbar(SortWindow, orient="vertical", command=canvas.yview)
-            scrollable_frame = ttk.Frame(canvas)
-
-            scrollable_frame.bind(
-                "<Configure>",
-                lambda e: canvas.configure(
-                    scrollregion=canvas.bbox("all")
-                )
-            )
-
-            canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-            canvas.configure(yscrollcommand=scrollbar.set)
-
-            canvas.pack(side="left", fill="both", expand=True)
-            scrollbar.pack(side="right", fill="y")
-
-            # Create inner frame for content
-            inner_frame = ttk.Frame(scrollable_frame, padding="10 10 10 10")
-            inner_frame.grid(row=0, column=0, sticky='nsew')
-
-            if CB1.get() == 'Player IGN [A]':
-                tc_info, roster = pdb.rteampName_ASC(E10.get())
-
-                L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER IGN IN ASCENDING ORDER", font=('Helvetica', 10,
-                                                                                                   'bold'))
-                L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
-                L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
-
-                EV1 = StringVar()
-                EV2 = StringVar()
-                E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
-                E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
-
-                # Populate team information
-                EV1.set(tc_info[0])
-                EV2.set(tc_info[1])
-
-                L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
-                L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
-                L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
-                E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
-                E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
-
-                row_start = 3
-                for i, player in enumerate(roster):
-                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
-
-                    EV3 = StringVar(value=player[0])
-                    EV4 = StringVar(value=player[1])
-                    EV5 = StringVar(value=player[2])
-                    EV6 = StringVar(value=player[3])
-                    EV7 = StringVar(value=player[4])
-
-                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
-
-                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
-
-                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
-
-                    # Add a separator
-                    separator = ttk.Separator(inner_frame, orient='horizontal')
-                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
-
-                    row_start += 6
-            elif CB1.get() == 'Player IGN [D]':
-                tc_info, roster = pdb.rteampName_DESC(E10.get())
-
-                L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER IGN IN DESCENDING ORDER", font=('Helvetica', 10,
-                                                                                                    'bold'))
-                L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
-                L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
-
-                EV1 = StringVar()
-                EV2 = StringVar()
-                E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
-                E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
-
-                # Populate team information
-                EV1.set(tc_info[0])
-                EV2.set(tc_info[1])
-
-                L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
-                L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
-                L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
-                E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
-                E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
-
-                row_start = 3
-                for i, player in enumerate(roster):
-                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
-
-                    EV3 = StringVar(value=player[0])
-                    EV4 = StringVar(value=player[1])
-                    EV5 = StringVar(value=player[2])
-                    EV6 = StringVar(value=player[3])
-                    EV7 = StringVar(value=player[4])
-
-                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
-
-                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
-
-                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
-
-                    # Add a separator
-                    separator = ttk.Separator(inner_frame, orient='horizontal')
-                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
-
-                    row_start += 6
-            elif CB1.get() == 'Age [A]':
-                tc_info, roster = pdb.rteam_AgeASC(E10.get())
-
-                L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER AGE IN ASCENDING ORDER", font=('Helvetica', 10,
-                                                                                                   'bold'))
-                L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
-                L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
-
-                EV1 = StringVar()
-                EV2 = StringVar()
-                E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
-                E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
-
-                # Populate team information
-                EV1.set(tc_info[0])
-                EV2.set(tc_info[1])
-
-                L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
-                L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
-                L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
-                E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
-                E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
-
-                row_start = 3
-                for i, player in enumerate(roster):
-                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
-
-                    EV3 = StringVar(value=player[0])
-                    EV4 = StringVar(value=player[1])
-                    EV5 = StringVar(value=player[2])
-                    EV6 = StringVar(value=player[3])
-                    EV7 = StringVar(value=player[4])
-
-                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
-
-                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
-
-                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
-
-                    # Add a separator
-                    separator = ttk.Separator(inner_frame, orient='horizontal')
-                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
-
-                    row_start += 6
-            elif CB1.get() == 'Age [D]':
-                tc_info, roster = pdb.rteam_AgeDESC(E10.get())
-
-                L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER AGE IN DESCENDING ORDER", font=('Helvetica', 10,
-                                                                                                    'bold'))
-                L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
-                L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
-
-                EV1 = StringVar()
-                EV2 = StringVar()
-                E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
-                E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
-
-                # Populate team information
-                EV1.set(tc_info[0])
-                EV2.set(tc_info[1])
-
-                L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
-                L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
-                L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
-                E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
-                E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
-
-                row_start = 3
-                for i, player in enumerate(roster):
-                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
-
-                    EV3 = StringVar(value=player[0])
-                    EV4 = StringVar(value=player[1])
-                    EV5 = StringVar(value=player[2])
-                    EV6 = StringVar(value=player[3])
-                    EV7 = StringVar(value=player[4])
-
-                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
-
-                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
-
-                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
-
-                    # Add a separator
-                    separator = ttk.Separator(inner_frame, orient='horizontal')
-                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
-
-                    row_start += 6
-            elif CB1.get() == 'Role [A]':
-                tc_info, roster = pdb.rteam_roleID_ASC(E10.get())
-
-                L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER ROLE IN ASCENDING ORDER", font=('Helvetica', 10,
-                                                                                                    'bold'))
-                L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
-                L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
-
-                EV1 = StringVar()
-                EV2 = StringVar()
-                E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
-                E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
-
-                # Populate team information
-                EV1.set(tc_info[0])
-                EV2.set(tc_info[1])
-
-                L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
-                L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
-                L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
-                E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
-                E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
-
-                row_start = 3
-                for i, player in enumerate(roster):
-                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
-
-                    EV3 = StringVar(value=player[0])
-                    EV4 = StringVar(value=player[1])
-                    EV5 = StringVar(value=player[2])
-                    EV6 = StringVar(value=player[3])
-                    EV7 = StringVar(value=player[4])
-
-                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
-
-                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
-
-                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
-
-                    # Add a separator
-                    separator = ttk.Separator(inner_frame, orient='horizontal')
-                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
-
-                    row_start += 6
-            elif CB1.get() == 'Role [D]':
-                tc_info, roster = pdb.rteam_roleID_DESC(E10.get())
-
-                L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER ROLE IN DESCENDING ORDER", font=('Helvetica', 10,
-                                                                                                     'bold'))
-                L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
-                L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
-
-                EV1 = StringVar()
-                EV2 = StringVar()
-                E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
-                E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
-
-                # Populate team information
-                EV1.set(tc_info[0])
-                EV2.set(tc_info[1])
-
-                L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
-                L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
-                L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
-                E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
-                E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
-
-                row_start = 3
-                for i, player in enumerate(roster):
-                    L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
-                    L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
-                    L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
-                    L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
-                    L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
-
-                    EV3 = StringVar(value=player[0])
-                    EV4 = StringVar(value=player[1])
-                    EV5 = StringVar(value=player[2])
-                    EV6 = StringVar(value=player[3])
-                    EV7 = StringVar(value=player[4])
-
-                    E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
-                    E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
-                    E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
-                    E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
-                    E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
-
-                    L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
-                    L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
-                    L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
-                    L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
-                    L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
-
-                    E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
-                    E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
-                    E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
-                    E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
-                    E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
-
-                    # Add a separator
-                    separator = ttk.Separator(inner_frame, orient='horizontal')
-                    separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
-
-                    row_start += 6
-            else:
+            if CB1.get() == '':
                 messagebox.showerror('Error!', 'Choose a column')
                 return
+            else:
+                SortWindow = Toplevel()
+                SortWindow.geometry("800x600")
+                SortWindow.title("Sorted Display Player Information")
+                screen_width = SortWindow.winfo_screenwidth()
+                screen_height = SortWindow.winfo_screenheight()
+                window_width = 800
+                window_height = 600
+                position_top = int(screen_height / 2 - window_height / 2)
+                position_right = int(screen_width / 2 - window_width / 2)
+                SortWindow.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
+
+                canvas = tk.Canvas(SortWindow)
+                scrollbar = ttk.Scrollbar(SortWindow, orient="vertical", command=canvas.yview)
+                scrollable_frame = ttk.Frame(canvas)
+
+                scrollable_frame.bind(
+                    "<Configure>",
+                    lambda e: canvas.configure(
+                        scrollregion=canvas.bbox("all")
+                    )
+                )
+
+                canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+                canvas.configure(yscrollcommand=scrollbar.set)
+
+                canvas.pack(side="left", fill="both", expand=True)
+                scrollbar.pack(side="right", fill="y")
+
+                # Create inner frame for content
+                inner_frame = ttk.Frame(scrollable_frame, padding="10 10 10 10")
+                inner_frame.grid(row=0, column=0, sticky='nsew', pady=(1, 0), padx=(50, 0))
+
+                if CB1.get() == 'Player IGN [A]':
+                    tc_info, roster = pdb.rteampName_ASC(E10.get())
+
+                    L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER IGN IN ASCENDING ORDER", font=('Helvetica', 10,
+                                                                                                       'bold'))
+                    L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
+                    L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
+
+                    EV1 = StringVar()
+                    EV2 = StringVar()
+                    E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
+                    E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
+
+                    # Populate team information
+                    EV1.set(tc_info[0])
+                    EV2.set(tc_info[1])
+
+                    L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
+                    L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+                    L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
+                    E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
+                    E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
+
+                    labels = [L0, L1, L2]
+                    for label in labels:
+                        label.configure(background='#F0F8FF')
+
+                    row_start = 3
+                    for i, player in enumerate(roster):
+                        L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                        L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                        L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                        L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                        L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+
+                        EV3 = StringVar(value=player[0])
+                        EV4 = StringVar(value=player[1])
+                        EV5 = StringVar(value=player[2])
+                        EV6 = StringVar(value=player[3])
+                        EV7 = StringVar(value=player[4])
+
+                        E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                        E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                        E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                        E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                        E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+
+                        L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                        L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                        L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                        L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                        L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+
+                        E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                        E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                        E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                        E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                        E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+
+                        labels = [L3, L4, L5, L6, L7]
+                        for label in labels:
+                            label.configure(background='#F0F8FF')
+
+                        # Add a separator
+                        separator = ttk.Separator(inner_frame, orient='horizontal')
+                        separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+
+                        row_start += 6
+                elif CB1.get() == 'Player IGN [D]':
+                    tc_info, roster = pdb.rteampName_DESC(E10.get())
+
+                    L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER IGN IN DESCENDING ORDER", font=('Helvetica', 10,
+                                                                                                        'bold'))
+                    L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
+                    L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
+
+                    EV1 = StringVar()
+                    EV2 = StringVar()
+                    E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
+                    E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
+
+                    # Populate team information
+                    EV1.set(tc_info[0])
+                    EV2.set(tc_info[1])
+
+                    L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
+                    L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+                    L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
+                    E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
+                    E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
+
+                    labels = [L0, L1, L2]
+                    for label in labels:
+                        label.configure(background='#F0F8FF')
+
+                    row_start = 3
+                    for i, player in enumerate(roster):
+                        L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                        L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                        L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                        L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                        L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+
+                        EV3 = StringVar(value=player[0])
+                        EV4 = StringVar(value=player[1])
+                        EV5 = StringVar(value=player[2])
+                        EV6 = StringVar(value=player[3])
+                        EV7 = StringVar(value=player[4])
+
+                        E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                        E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                        E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                        E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                        E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+
+                        L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                        L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                        L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                        L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                        L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+
+                        E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                        E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                        E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                        E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                        E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+
+                        labels = [L3, L4, L5, L6, L7]
+                        for label in labels:
+                            label.configure(background='#F0F8FF')
+
+                        # Add a separator
+                        separator = ttk.Separator(inner_frame, orient='horizontal')
+                        separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+
+                        row_start += 6
+                elif CB1.get() == 'Age [A]':
+                    tc_info, roster = pdb.rteam_AgeASC(E10.get())
+
+                    L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER AGE IN ASCENDING ORDER", font=('Helvetica', 10,
+                                                                                                       'bold'))
+                    L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
+                    L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
+
+                    EV1 = StringVar()
+                    EV2 = StringVar()
+                    E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
+                    E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
+
+                    # Populate team information
+                    EV1.set(tc_info[0])
+                    EV2.set(tc_info[1])
+
+                    L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
+                    L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+                    L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
+                    E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
+                    E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
+
+                    labels = [L0, L1, L2]
+                    for label in labels:
+                        label.configure(background='#F0F8FF')
+
+                    row_start = 3
+                    for i, player in enumerate(roster):
+                        L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                        L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                        L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                        L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                        L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+
+                        EV3 = StringVar(value=player[0])
+                        EV4 = StringVar(value=player[1])
+                        EV5 = StringVar(value=player[2])
+                        EV6 = StringVar(value=player[3])
+                        EV7 = StringVar(value=player[4])
+
+                        E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                        E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                        E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                        E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                        E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+
+                        L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                        L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                        L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                        L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                        L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+
+                        E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                        E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                        E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                        E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                        E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+
+                        labels = [L3, L4, L5, L6, L7]
+                        for label in labels:
+                            label.configure(background='#F0F8FF')
+
+                        # Add a separator
+                        separator = ttk.Separator(inner_frame, orient='horizontal')
+                        separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+
+                        row_start += 6
+                elif CB1.get() == 'Age [D]':
+                    tc_info, roster = pdb.rteam_AgeDESC(E10.get())
+
+                    L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER AGE IN DESCENDING ORDER", font=('Helvetica', 10,
+                                                                                                        'bold'))
+                    L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
+                    L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
+
+                    EV1 = StringVar()
+                    EV2 = StringVar()
+                    E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
+                    E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
+
+                    # Populate team information
+                    EV1.set(tc_info[0])
+                    EV2.set(tc_info[1])
+
+                    L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
+                    L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+                    L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
+                    E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
+                    E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
+
+                    labels = [L0, L1, L2]
+                    for label in labels:
+                        label.configure(background='#F0F8FF')
+
+                    row_start = 3
+                    for i, player in enumerate(roster):
+                        L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                        L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                        L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                        L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                        L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+
+                        EV3 = StringVar(value=player[0])
+                        EV4 = StringVar(value=player[1])
+                        EV5 = StringVar(value=player[2])
+                        EV6 = StringVar(value=player[3])
+                        EV7 = StringVar(value=player[4])
+
+                        E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                        E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                        E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                        E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                        E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+
+                        L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                        L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                        L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                        L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                        L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+
+                        E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                        E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                        E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                        E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                        E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+
+                        labels = [L3, L4, L5, L6, L7]
+                        for label in labels:
+                            label.configure(background='#F0F8FF')
+
+                        # Add a separator
+                        separator = ttk.Separator(inner_frame, orient='horizontal')
+                        separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+
+                        row_start += 6
+                elif CB1.get() == 'Role [A]':
+                    tc_info, roster = pdb.rteam_roleID_ASC(E10.get())
+
+                    L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER ROLE IN ASCENDING ORDER", font=('Helvetica', 10,
+                                                                                                        'bold'))
+                    L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
+                    L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
+
+                    EV1 = StringVar()
+                    EV2 = StringVar()
+                    E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
+                    E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
+
+                    # Populate team information
+                    EV1.set(tc_info[0])
+                    EV2.set(tc_info[1])
+
+                    L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
+                    L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+                    L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
+                    E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
+                    E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
+
+                    labels = [L0, L1, L2]
+                    for label in labels:
+                        label.configure(background='#F0F8FF')
+
+                    row_start = 3
+                    for i, player in enumerate(roster):
+                        L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                        L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                        L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                        L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                        L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+
+                        EV3 = StringVar(value=player[0])
+                        EV4 = StringVar(value=player[1])
+                        EV5 = StringVar(value=player[2])
+                        EV6 = StringVar(value=player[3])
+                        EV7 = StringVar(value=player[4])
+
+                        E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                        E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                        E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                        E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                        E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+
+                        L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                        L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                        L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                        L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                        L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+
+                        E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                        E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                        E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                        E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                        E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+
+                        labels = [L3, L4, L5, L6, L7]
+                        for label in labels:
+                            label.configure(background='#F0F8FF')
+
+                        # Add a separator
+                        separator = ttk.Separator(inner_frame, orient='horizontal')
+                        separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+
+                        row_start += 6
+                elif CB1.get() == 'Role [D]':
+                    tc_info, roster = pdb.rteam_roleID_DESC(E10.get())
+
+                    L0 = ttk.Label(inner_frame, text="SORTED VIA PLAYER ROLE IN DESCENDING ORDER", font=('Helvetica', 10,
+                                                                                                         'bold'))
+                    L1 = ttk.Label(inner_frame, text="Team Name:", font=('Helvetica', 10, 'bold'))
+                    L2 = ttk.Label(inner_frame, text="Coach Name:", font=('Helvetica', 10, 'bold'))
+
+                    EV1 = StringVar()
+                    EV2 = StringVar()
+                    E1 = Entry(inner_frame, state="readonly", textvariable=EV1)
+                    E2 = Entry(inner_frame, state="readonly", textvariable=EV2)
+
+                    # Populate team information
+                    EV1.set(tc_info[0])
+                    EV2.set(tc_info[1])
+
+                    L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
+                    L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
+                    L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
+                    E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
+                    E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
+
+                    labels = [L0, L1, L2]
+                    for label in labels:
+                        label.configure(background='#F0F8FF')
+
+                    row_start = 3
+                    for i, player in enumerate(roster):
+                        L3 = ttk.Label(inner_frame, text=f"Player {i + 1} IGN:", font=('Helvetica', 10, 'bold'))
+                        L4 = ttk.Label(inner_frame, text=f"Player {i + 1} First Name:", font=('Helvetica', 10, 'bold'))
+                        L5 = ttk.Label(inner_frame, text=f"Player {i + 1} Last Name:", font=('Helvetica', 10, 'bold'))
+                        L6 = ttk.Label(inner_frame, text=f"Player {i + 1} Age:", font=('Helvetica', 10, 'bold'))
+                        L7 = ttk.Label(inner_frame, text=f"Player {i + 1} Role:", font=('Helvetica', 10, 'bold'))
+
+                        EV3 = StringVar(value=player[0])
+                        EV4 = StringVar(value=player[1])
+                        EV5 = StringVar(value=player[2])
+                        EV6 = StringVar(value=player[3])
+                        EV7 = StringVar(value=player[4])
+
+                        E3 = Entry(inner_frame, state="readonly", textvariable=EV3)
+                        E4 = Entry(inner_frame, state="readonly", textvariable=EV4)
+                        E5 = Entry(inner_frame, state="readonly", textvariable=EV5)
+                        E6 = Entry(inner_frame, state="readonly", textvariable=EV6)
+                        E7 = Entry(inner_frame, state="readonly", textvariable=EV7)
+
+                        L3.grid(row=row_start, column=0, padx=5, pady=5, sticky=W)
+                        L4.grid(row=row_start + 1, column=0, padx=5, pady=5, sticky=W)
+                        L5.grid(row=row_start + 2, column=0, padx=5, pady=5, sticky=W)
+                        L6.grid(row=row_start + 3, column=0, padx=5, pady=5, sticky=W)
+                        L7.grid(row=row_start + 4, column=0, padx=5, pady=5, sticky=W)
+
+                        E3.grid(row=row_start, column=1, padx=5, pady=5, sticky=W)
+                        E4.grid(row=row_start + 1, column=1, padx=5, pady=5, sticky=W)
+                        E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
+                        E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
+                        E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+
+                        labels = [L3, L4, L5, L6, L7]
+                        for label in labels:
+                            label.configure(background='#F0F8FF')
+
+                        # Add a separator
+                        separator = ttk.Separator(inner_frame, orient='horizontal')
+                        separator.grid(row=row_start + 5, column=0, columnspan=2, sticky='ew', pady=10)
+
+                        row_start += 6
+
 
         RetrieveWindow = Toplevel()
         RetrieveWindow.title("Display Player Information")
+        RetrieveWindow.configure(bg='#F0F8FF')
+
         screen_width = RetrieveWindow.winfo_screenwidth()
         screen_height = RetrieveWindow.winfo_screenheight()
         window_width = 800
@@ -1515,7 +1656,11 @@ def team():
 
         # Create inner frame for content
         inner_frame = ttk.Frame(scrollable_frame, padding="10 10 10 10")
-        inner_frame.grid(row=0, column=0, sticky=('nsew'))
+        inner_frame.grid(row=0, column=0, sticky='nsew', pady=(1, 0), padx=(150, 0))
+
+        # Create styles
+        style = ttk.Style()
+        style.configure("Inner.TFrame", background='#F0F8FF', relief='solid')
 
         # widgets
         SORTING = ['Player IGN [A]', 'Player IGN [D]', 'Age [A]', 'Age [D]', 'Role [A]', 'Role [D]']
@@ -1534,13 +1679,17 @@ def team():
         EV1.set(tc_info[0])
         EV2.set(tc_info[1])
 
-        CB1.grid(row=0, column=2, padx=5, pady=5, sticky=E)
-        B1.grid(row=0, column=3, padx=5, pady=5, sticky=W)
-        L0.grid(row=0, column=1, padx=5, pady=5, sticky=W)
+        CB1.grid(row=0, column=1, padx=5, pady=5, sticky=E)
+        B1.grid(row=0, column=2, padx=5, pady=5, sticky=W)
+        L0.grid(row=0, column=0, padx=5, pady=5, sticky=W)
         L1.grid(row=1, column=0, padx=5, pady=5, sticky=W)
         L2.grid(row=1, column=2, padx=5, pady=5, sticky=W)
         E1.grid(row=1, column=1, padx=5, pady=5, sticky=W)
         E2.grid(row=1, column=3, padx=5, pady=5, sticky=W)
+
+        labels = [L0, L1, L2]
+        for label in labels:
+            label.configure(background='#F0F8FF')
 
         row_start = 3
         for i, player in enumerate(roster):
@@ -1573,6 +1722,10 @@ def team():
             E5.grid(row=row_start + 2, column=1, padx=5, pady=5, sticky=W)
             E6.grid(row=row_start + 3, column=1, padx=5, pady=5, sticky=W)
             E7.grid(row=row_start + 4, column=1, padx=5, pady=5, sticky=W)
+
+            labels = [L3, L4, L5, L6, L7]
+            for label in labels:
+                label.configure(background='#F0F8FF')
 
             # Add a separator
             separator = ttk.Separator(inner_frame, orient='horizontal')
@@ -1858,7 +2011,7 @@ def main():
         login()
 
     frame = Tk()
-    frame.title("Esports Project")
+    frame.title("Summoner Stats")
 
     # Center the main window on the screen
     screen_width = frame.winfo_screenwidth()
@@ -1870,7 +2023,7 @@ def main():
     frame.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
     # Create a container frame to hold all the widgets with padding
-    container = ttk.Frame(frame, padding="15 15 15 15")
+    container = ttk.Frame(frame, padding="15 15 15 15", style="Container.TFrame")
     container.grid(row=0, column=0, sticky='nsew')
 
     # Configure the grid to expand and center widgets
@@ -1880,35 +2033,42 @@ def main():
     container.rowconfigure(0, weight=1)
 
     # Create an inner frame to center the widgets
-    inner_frame = ttk.Frame(container)
-    inner_frame.grid(row=0, column=0, sticky='')
+    inner_frame = ttk.Frame(container, padding="25 25 25 25", style="Inner.TFrame")
+    inner_frame.grid(row=0, column=0)
+
+    # Configure styles
+    style = ttk.Style()
+    style.theme_use('clam')  # Use 'clam' theme for better styling options
+    style.configure("TFrame", background="#f0f4f7")
+    style.configure("Container.TFrame", background="#f0f4f7")
+    style.configure("Inner.TFrame", background="white", relief="solid", borderwidth=1)
+    style.configure("TLabel", background="white", font=('Helvetica', 12))
+    style.configure("TButton", font=('Helvetica', 12), padding=10, background="#007BFF", foreground="white")
+    style.map("TButton", background=[('active', '#0056b3')])
 
     # Create label widgets
-    L1 = ttk.Label(inner_frame, text="            INFORMATION MANAGEMENT PROJECT!", font=('Helvetica', 16, 'bold'))
-    L2 = ttk.Label(inner_frame, text="Welcome, admin! To start navigating, please select either of the four buttons!",
-                   font=('Helvetica', 12, 'italic'))
+    L1 = ttk.Label(inner_frame, text="      SUMMONER STATS", font=('Helvetica', 32, 'bold'), background="white", foreground="#333333")
+    L2 = ttk.Label(inner_frame, text="Welcome, admin! To start navigating, please select either of the four buttons!", font=('Helvetica', 12, 'italic'), background="white", foreground="#333333")
 
     # Create buttons with some styling
-    style = ttk.Style()
-    style.configure("TButton", font=('Helvetica', 12), padding=5)
-
     B1 = ttk.Button(inner_frame, text="PLAYER", command=player)
     B2 = ttk.Button(inner_frame, text="TEAM", command=team)
     B3 = ttk.Button(inner_frame, text="COACH", command=coach)
     B4 = ttk.Button(inner_frame, text="STATISTICS", command=statistics)
-    B5 = ttk.Button(inner_frame, text="Log-out", command=logout)
+    B5 = ttk.Button(inner_frame, text="Log Out", command=logout)
 
     # Packing the widgets to center them
-    L1.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky=(W + E))
-    L2.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky=(W + E))
-    B1.grid(row=2, column=0, padx=10, pady=10, sticky=E)
-    B2.grid(row=2, column=1, padx=10, pady=10, sticky=W)
-    B3.grid(row=3, column=0, padx=10, pady=10, sticky=E)
-    B4.grid(row=3, column=1, padx=10, pady=10, sticky=W)
-    B5.grid(row=4, column=0, columnspan=2, padx=5, pady=5)
+    L1.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky='ew')
+    L2.grid(row=1, column=0, columnspan=2, padx=10, pady=10, sticky='ew')
+    B1.grid(row=2, column=0, padx=10, pady=10, sticky='ew')
+    B2.grid(row=2, column=1, padx=10, pady=10, sticky='ew')
+    B3.grid(row=3, column=0, padx=10, pady=10, sticky='ew')
+    B4.grid(row=3, column=1, padx=10, pady=10, sticky='ew')
+    B5.grid(row=4, column=0, columnspan=2, padx=5, pady=5, sticky='ew')
 
     # Start the main loop
     frame.mainloop()
+
 
 
 def login():
@@ -1919,10 +2079,11 @@ def login():
             frame.destroy()  # Close the login window
             main()  # Open the main window
         else:
-            showinfo("Message", "Invalid Credentials!")
+            messagebox.showinfo("Message", "Invalid Credentials!")
 
     frame = Tk()
-    frame.title("Esports Project Login")
+    frame.title("Summoner Stats")
+
 
     # Center the main window on the screen
     screen_width = frame.winfo_screenwidth()
@@ -1934,7 +2095,7 @@ def login():
     frame.geometry(f"{window_width}x{window_height}+{position_right}+{position_top}")
 
     # Create a container frame to hold all the widgets with padding
-    container = ttk.Frame(frame, padding="15 15 15 15")
+    container = ttk.Frame(frame, padding="15 15 15 15", style="Container.TFrame")
     container.grid(row=0, column=0, sticky='nsew')
 
     # Configure the grid to expand and center widgets
@@ -1944,34 +2105,42 @@ def login():
     container.rowconfigure(0, weight=1)
 
     # Create an inner frame to center the widgets
-    inner_frame = ttk.Frame(container)
-    inner_frame.grid(row=0, column=0, sticky='')
+    inner_frame = ttk.Frame(container, padding="25 25 25 25", style="Inner.TFrame")
+    inner_frame.grid(row=0, column=0)
+
+    # Configure styles
+    style = ttk.Style()
+    style.theme_use('clam')  # Use 'clam' theme for better styling options
+    style.configure("TFrame", background="#f0f4f7")
+    style.configure("Container.TFrame", background="#f0f4f7")
+    style.configure("Inner.TFrame", background="white", relief="solid", borderwidth=1)
+    style.configure("TLabel", background="white", font=('Helvetica', 12))
+    style.configure("TButton", font=('Helvetica', 12, 'bold'), padding=10, background="#007BFF", foreground="white")
+    style.map("TButton", background=[('active', '#0056b3')])
+    style.configure("TEntry", padding=5, relief="flat", background="white", font=('Helvetica', 12))
+    style.map("TEntry", fieldbackground=[('focus', '#e5f1fb')], foreground=[('focus', 'black')])
 
     # Create label widgets
-    L1 = ttk.Label(inner_frame, text="        LOG-IN", font=('Helvetica', 20, 'bold'))
-    L2 = ttk.Label(inner_frame, text="Username: ", font=('Helvetica', 12, 'italic'))
-    L3 = ttk.Label(inner_frame, text="Password: ", font=('Helvetica', 12, 'italic'))
+    L1 = ttk.Label(inner_frame, text="       ADMIN LOG IN", font=('Helvetica', 20, 'bold'), background="white", foreground="#333333")
+    L2 = ttk.Label(inner_frame, text="Username: ", font=('Helvetica', 12, ), background="white", foreground="#333333")
+    L3 = ttk.Label(inner_frame, text="Password: ", font=('Helvetica', 12, ), background="white", foreground="#333333")
 
     # Entry Widgets
-    E1 = ttk.Entry(inner_frame, state=NORMAL)
-    E2 = ttk.Entry(inner_frame, state=NORMAL, show='*')  # Hide password
+    E1 = ttk.Entry(inner_frame, state=NORMAL, font=('Helvetica', 12))
+    E2 = ttk.Entry(inner_frame, state=NORMAL, show='*', font=('Helvetica', 12))  # Hide password
 
-    # Buttons for navigation
     # Create buttons with some styling
-    style = ttk.Style()
-    style.configure("TButton", font=('Helvetica', 12), padding=10)
-    B1 = ttk.Button(inner_frame, text="Log-in", command=determine_login)
+    B1 = ttk.Button(inner_frame, text="Log In", command=determine_login)
 
     # Packing widgets
-    L1.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky=(W + E))
+    L1.grid(row=0, column=0, columnspan=2, padx=10, pady=20, sticky=(W + E))
     L2.grid(row=1, column=0, padx=10, pady=10, sticky=E)
     L3.grid(row=2, column=0, padx=10, pady=10, sticky=E)
     E1.grid(row=1, column=1, padx=10, pady=10, sticky=W)
     E2.grid(row=2, column=1, padx=10, pady=10, sticky=W)
-    B1.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky=(W + E))
+    B1.grid(row=3, column=0, columnspan=2, padx=10, pady=20, sticky=(W + E))
 
     # Start the main loop
     frame.mainloop()
-
 
 login()
