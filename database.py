@@ -80,12 +80,11 @@ def retrieve_playerstat_info(name, year):
     if retrieved_stat is not None:
         return list(retrieved_stat)
     else:
-        return 'PDNE'
+        return 'PSDNE'
 
 
 # Function to update player performance statistics
 def update_playerstat_info(name, year, column, new_value):
-    # List of valid columns for updating
     player_stat_list = ['year_played', 'games_played', 'most_used', 'win_rate', 'player_participation']
 
     # Check if the specified column is valid
@@ -93,7 +92,7 @@ def update_playerstat_info(name, year, column, new_value):
         return False
 
     # Check if the player exists
-    check_player_formula = "SELECT playerName FROM PLAYER WHERE playerName = %s"
+    check_player_formula = "SELECT * FROM PLAYER WHERE playerName = %s"
     cursor.execute(check_player_formula, (name,))
     player_info = cursor.fetchone()
 
@@ -101,29 +100,34 @@ def update_playerstat_info(name, year, column, new_value):
     if player_info is None:
         return 'PDNE'
 
+    cursor.fetchall()
+
     # Check if the player statistics exist for the given year
-    check_playerstat_formula = "SELECT playerName FROM PLAYER_PERFORMANCE WHERE playerName = %s AND year_played = %s"
-    cursor.execute(check_playerstat_formula, (name, year))
-    player_stat = cursor.fetchone()
+    retrieve_stat_formula = "SELECT * FROM player_performance WHERE playerName = %s AND year_played = %s"
+    cursor.execute(retrieve_stat_formula, (name, year))
+    retrieved_stat = cursor.fetchone()
 
     # If the statistics do not exist, return 'PSDNE' (Player Statistics Do Not Exist)
-    if player_stat is None:
+    if retrieved_stat is None:
         return 'PSDNE'
 
     # Check if the new year already exists for the player
+
     if column == 'year_played':
         check_year = "SELECT year_played FROM PLAYER_PERFORMANCE WHERE playerName = %s AND year_played = %s"
         cursor.execute(check_year, (name, new_value))
         result = cursor.fetchone()
+        print(result)
 
         if result is not None:
             return 'PSYAE'
 
     # Update player statistics
-    update_playerstat_formula = "UPDATE PLAYER_PERFORMANCE SET " + column + " = %s WHERE playerName = %s AND year_played = %s"
+    update_playerstat_formula = ("UPDATE PLAYER_PERFORMANCE SET " + column +
+                                        " = %s WHERE playerName = %s AND year_played = %s")
     cursor.execute(update_playerstat_formula, (new_value, name, year))
     mydb.commit()  # Commit the transaction
-    return 'PSUS'  # Player Statistics Updated Successfully
+    return 'PSUS'  # Player Statistics Updated Successfull
 
 
 # Function to delete player performance statistics
