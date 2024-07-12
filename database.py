@@ -17,7 +17,7 @@ cursor = mydb.cursor()
 # Function to check admin credentials in the admin table
 def check_admin(username, password):
     # SQL query to select admin credentials
-    login_formula = ("SELECT * FROM admin WHERE admin_user = %s AND password = %s")
+    login_formula = ("SELECT * FROM admin WHERE user_admin = %s AND password = %s")
     # Execute the query with the provided username and password
     cursor.execute(login_formula, (username, password))
     # Fetch one result
@@ -117,7 +117,6 @@ def update_playerstat_info(name, year, column, new_value):
         check_year = "SELECT year_played FROM PLAYER_PERFORMANCE WHERE playerName = %s AND year_played = %s"
         cursor.execute(check_year, (name, new_value))
         result = cursor.fetchone()
-        print(result)
 
         if result is not None:
             return 'PSYAE'
